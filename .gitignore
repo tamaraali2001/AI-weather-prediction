@@ -1,2 +1,19 @@
+# التبعيات
+node_modules/
 
-rf_model.pkl
+# ملفات البيئة
+.env
+env/
+
+# السجلات والمخرجات
+*.log
+logs/
+
+# ملفات النظام
+.DS_Store
+
+# مجلدات البناء
+dist/
+build/
+out/
+.coverage

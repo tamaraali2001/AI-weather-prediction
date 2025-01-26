@@ -1,4 +1,4 @@
-// src/components/CountryCitySelect.js
+// CountryCitySelect.js
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -14,8 +14,7 @@ const CountryCitySelect = ({
 
   return (
     <div className="select-container">
-      {/* اختيار الدولة */}
-      <label htmlFor="country-select">{t('selectCountry')}: </label>
+      <label htmlFor="country-select">{t('selectCountry')}:</label>
       <select
         id="country-select"
         value={selectedCountry}
@@ -24,21 +23,18 @@ const CountryCitySelect = ({
         <option value="">{t('selectCountry')}</option>
         {countries.map((country, index) => (
           <option key={index} value={country}>
-            {/* استخدام الترجمة بناءً على مفتاح countries في translation.json */}
             {t(`countries.${country}`, country)}
           </option>
         ))}
       </select>
 
-      {/* اختيار المدينة/المحافظة */}
       {selectedCountry && (
         <>
-          <label htmlFor="city-select">{t('selectCity')}: </label>
+          <label htmlFor="city-select">{t('selectCity')}:</label>
           <select id="city-select" value={selectedCity} onChange={onCityChange}>
             <option value="">{t('selectCity')}</option>
             {cities.map((city, index) => (
               <option key={index} value={city}>
-                {/* استخدام الترجمة بناءً على مفتاح cities في translation.json */}
                 {t(`cities.${city}`, city)}
               </option>
             ))}

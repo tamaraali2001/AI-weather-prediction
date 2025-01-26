@@ -1,144 +1,230 @@
-/* خلفية الصفحة بالكامل */
-.app-container {
-  min-height: 100vh;
-  background-image: url("C:\\Users\\Yasser Dhia (NDC)\\Desktop\\background-night.jpg"); /* عدل الرابط */
-  background-size: cover;
-  background-position: center;
-  padding: 2rem;
-  color: #fff;
-  font-family: sans-serif;
-  position: relative;
+/* App.css */
+/* إعادة ضبط بعض القيم الافتراضية */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* زر اللغة (أيقونة) */
-.lang-switch {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+/* استخدام خط لطيف (مثال: Open Sans) */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
 }
 
-/* أيقونة تدل على الترجمة */
-.language-button {
-  background: linear-gradient(90deg, #4b6cb7, #182848);
+/* شريط علوي (Navbar) */
+.navbar {
+  background: linear-gradient(45deg, #0066cc, #003366);
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   color: #fff;
-  border: none;
-  padding: 0.6rem 0.8rem;
-  cursor: pointer;
-  border-radius: 10px;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
   font-weight: 600;
-  transition: background 0.3s ease;
+}
+
+.navbar .lang-switch {
+  position: static;
+}
+
+.navbar .language-button {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.language-button:hover {
-  background: linear-gradient(90deg, #182848, #4b6cb7);
+.navbar .language-button:hover {
+  background: #fff;
+  color: #003366;
 }
 
-.language-button .material-icons {
-  font-size: 24px; 
-}
-
-/* الحاوية الرئيسية لعرض الـ select يمين/يسار */
-.layout-container {
-  width: 100%;
-  margin-top: 80px; /* إزاحة للأسفل ليظهر أسفل زر اللغة */
+/* البانر (Hero Section) - صورة خلفية */
+.hero-section {
+  position: relative;
+  height: 400px;
+  background: url("https://images.unsplash.com/photo-1535905667929-044dbbe3c2fc?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
 }
 
-.layout-container.ltr {
-  justify-content: flex-start; /* في اللغة الإنجليزية */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 30, 60, 0.5);
 }
 
-.layout-container.rtl {
-  justify-content: flex-end; /* في اللغة العربية */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
 }
 
-/* مظهر عام للقوائم المنسدلة */
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
+}
+
+/* حاوية عامة للصفحة */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* تنسيق عام لـ select-container */
 .select-container {
-  width: 250px;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.5);
+  background: #fff;
   border-radius: 8px;
-  margin: 0 2rem;
-  text-align: left;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-top: -3rem; /* رفع الحاوية قليلاً إلى فوق */
+  position: relative;
+  z-index: 10;
 }
 
 .select-container label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
 }
 
 .select-container select {
   width: 100%;
+  padding: 0.5rem;
   margin-bottom: 1rem;
-  padding: 0.4rem;
-  border-radius: 4px;
+  outline: none;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 /* زر العودة */
 .back-button {
-  background: #444;
+  background-color: #d9534f;
   color: #fff;
   border: none;
   margin-bottom: 1rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
   border-radius: 4px;
+  transition: background 0.3s ease;
 }
 .back-button:hover {
-  background: #666;
+  background-color: #c9302c;
 }
 
-/* حاوية البطاقات */
+/* حاوية عرض الطقس */
 .weather-cards-container {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.5);
+  margin: 2rem 0;
+  background: #fff;
   border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* عناوين داخل حاوية الطقس */
+.weather-cards-container h2 {
+  margin-bottom: 1rem;
   text-align: center;
+  font-weight: 600;
+  font-size: 1.3rem;
 }
 
 /* مجموعة البطاقات */
 .cards-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1rem;
-  justify-content: center;
 }
 
-/* بطاقة التوقعات لكل يوم */
+/* البطاقة نفسها */
 .forecast-card {
-  background: rgba(0, 0, 0, 0.7);
+  background: #fafafa;
   border-radius: 8px;
-  width: 220px;
   padding: 1rem;
   text-align: left;
   position: relative;
-  animation: fadeIn 0.6s ease-in-out forwards;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+.forecast-card:hover {
+  transform: translateY(-5px);
 }
 
 .forecast-card h3 {
   margin-top: 0;
-  color: #ffd700; /* لون مميز للتاريخ */
+  margin-bottom: 0.5rem;
+  color: #0066cc;
+  font-weight: 600;
 }
-
 .forecast-card p {
-  margin: 0.3rem 0;
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
 }
 
-/* مؤثرات انتقال (Fade-In) */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* تنسيق RTL عند اختيار العربية */
+.rtl {
+  direction: rtl;
+}
+
+.rtl .navbar {
+  justify-content: flex-start;
+}
+.rtl .navbar .logo {
+  margin-right: auto;
+  margin-left: 1rem;
+}
+.rtl .navbar .lang-switch {
+  margin-right: 1rem;
+}
+
+/* فوتر اختياري */
+.footer {
+  background: #003366;
+  color: #fff;
+  text-align: center;
+  padding: 0.7rem 1rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+/* في أعلى App.css أو آخره */
+
+/* طبقة تُعرض فوق المحتوى جزئياً */
+.weather-effect-overlay {
+  position: fixed; /* حتى تظهر فوق كل شيء */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* حتى لا تعيق النقرات على المحتوى */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999; /* عالي كي يظهر فوق */
+  /* خلفية شبه شفافة أو بدون خلفية */
+  background-color: rgba(0, 0, 0, 0.01);
 }

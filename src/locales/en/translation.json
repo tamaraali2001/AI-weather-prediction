@@ -1,0 +1,19 @@
+{
+    "selectCountry": "Select a Country",
+    "selectCity": "Select a City",
+    "maxTemp": "Max Temp (°C)",
+    "minTemp": "Min Temp (°C)",
+    "avgTemp": "Avg Temp (°C)",
+    "humidity": "Humidity",
+    "wind": "Max Wind (mph)",
+    "precip": "Total Precip (mm)",
+    "visibility": "Avg Visibility (km)",
+    "uvIndex": "UV Index",
+    "season": "Season",
+    "date": "Date",
+    "predictedTemp": "Predicted Avg Temp",
+    "rangeTemp": "Temp Range",
+    "backToSelect": "Back to Selection",
+    "languageSwitch": "العربية"
+  }
+  

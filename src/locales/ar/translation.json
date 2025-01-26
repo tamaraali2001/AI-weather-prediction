@@ -1,0 +1,19 @@
+{
+    "selectCountry": "اختر دولة",
+    "selectCity": "اختر مدينة",
+    "maxTemp": "درجة الحرارة العظمى (°C)",
+    "minTemp": "درجة الحرارة الصغرى (°C)",
+    "avgTemp": "متوسط الحرارة (°C)",
+    "humidity": "الرطوبة",
+    "wind": "الرياح (ميل/ساعة)",
+    "precip": "هطول الأمطار (ملم)",
+    "visibility": "الرؤية (كم)",
+    "uvIndex": "مؤشر الأشعة فوق البنفسجية",
+    "season": "الموسم",
+    "date": "التاريخ",
+    "predictedTemp": "متوسط الحرارة المتوقعة",
+    "rangeTemp": "المدى الحراري",
+    "backToSelect": "عودة للاختيار",
+    "languageSwitch": "English"
+  }
+  

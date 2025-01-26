@@ -10,9 +10,12 @@ function App() {
   const [csvData, setCsvData] = useState([]);
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
+  
+  // سيتم تخزين كل الصفوف التابعة للمحافظة المختارة في هذا المتغيّر
+  const [selectedRows, setSelectedRows] = useState([]);
+
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
-  const [selectedRow, setSelectedRow] = useState(null);
 
   const { i18n } = useTranslation();
 
@@ -35,44 +38,44 @@ function App() {
     });
   }, []);
 
-  // عند تغيير الدولة، نُظهر المدن الخاصة بها
+  // عند تغيير الدولة، نُظهر المدن/المحافظات الخاصة بها
   const handleCountryChange = (e) => {
     const selected = e.target.value;
     setSelectedCountry(selected);
     setSelectedCity('');
-    setSelectedRow(null);
+    setSelectedRows([]); // إعادة التهيئة
 
     if (selected) {
-      // جلب كل المدن المرتبطة بهذه الدولة
+      // جلب كل المدن/المحافظات المرتبطة بهذه الدولة
       const filtered = csvData.filter((row) => row.country === selected);
-      const uniqueCities = [...new Set(filtered.map((row) => row.governorate || row.city || row.governorate))];
+      const uniqueCities = [...new Set(filtered.map((row) => row.governorate || row.city))];
       setCities(uniqueCities.sort());
     } else {
       setCities([]);
     }
   };
 
-  // عند اختيار مدينة، نستخرج الصف المناسب من البيانات
+  // عند اختيار مدينة/محافظة
   const handleCityChange = (e) => {
     const selected = e.target.value;
     setSelectedCity(selected);
 
     if (selected) {
-      const row = csvData.find(
+      // نجلب جميع السجلات الخاصة بهذه المدينة (أو المحافظة)
+      const filteredRows = csvData.filter(
         (r) =>
           r.country === selectedCountry &&
           (r.governorate === selected || r.city === selected)
       );
-      if (row) {
-        setSelectedRow({ ...row, city: selected });
-      }
+      setSelectedRows(filteredRows);
     } else {
-      setSelectedRow(null);
+      setSelectedRows([]);
     }
   };
 
+  // زر الرجوع إلى اختيار الدولة/المحافظة
   const handleBack = () => {
-    setSelectedRow(null);
+    setSelectedRows([]);
     setSelectedCountry('');
     setSelectedCity('');
   };
@@ -82,18 +85,20 @@ function App() {
     i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en');
   };
 
-  // لكتابة نص الزر بناءً على اللغة الحالية
-  const languageButtonText = i18n.language === 'en' ? 'العربية' : 'English';
-
   return (
     <div className="app-container">
+      {/* زر اللغة (أيقونة) */}
       <div className="lang-switch">
         <button className="language-button" onClick={toggleLanguage}>
-          {languageButtonText}
+          {/* يمكنك وضع أيقونة Font Awesome مثلاً أو أيقونة SVG تعبّر عن المشروع */}
+          <span className="material-icons">
+            translate
+          </span>
         </button>
       </div>
 
-      {!selectedRow && (
+      {/* حاوية لعرض عناصر الاختيار إما في اليسار أو اليمين حسب اللغة */}
+      <div className={`layout-container ${i18n.language === 'ar' ? 'rtl' : 'ltr'}`}>
         <CountryCitySelect
           countries={countries}
           selectedCountry={selectedCountry}
@@ -102,11 +107,14 @@ function App() {
           selectedCity={selectedCity}
           onCityChange={handleCityChange}
         />
-      )}
+      </div>
 
-      {selectedRow && (
+      {/* إذا كان لدينا صفوف مختارة (مدينة مختارة) نعرض الطقس */}
+      {selectedRows.length > 0 && (
         <WeatherDisplay
-          selectedRow={selectedRow}
+          selectedRows={selectedRows}
+          selectedCountry={selectedCountry}
+          selectedCity={selectedCity}
           onBack={handleBack}
         />
       )}

@@ -10,7 +10,7 @@ const CountryCitySelect = ({
   selectedCity,
   onCityChange
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="select-container">
@@ -24,7 +24,8 @@ const CountryCitySelect = ({
         <option value="">{t('selectCountry')}</option>
         {countries.map((country, index) => (
           <option key={index} value={country}>
-            {country}
+            {/* نستخدم الترجمة بناءً على مفتاح countries في translation.json */}
+            {t(`countries.${country}`, country)}
           </option>
         ))}
       </select>
@@ -37,7 +38,8 @@ const CountryCitySelect = ({
             <option value="">{t('selectCity')}</option>
             {cities.map((city, index) => (
               <option key={index} value={city}>
-                {city}
+                {/* نستخدم الترجمة بناءً على مفتاح cities في translation.json */}
+                {t(`cities.${city}`, city)}
               </option>
             ))}
           </select>

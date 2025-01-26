@@ -14,7 +14,7 @@ function App() {
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedRow, setSelectedRow] = useState(null);
 
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   // عند تحميل التطبيق نجلب ملف CSV من فولدر public
   useEffect(() => {
@@ -25,7 +25,7 @@ function App() {
         const data = results.data;
         setCsvData(data);
 
-        // استخراج قائمة الدول
+        // استخلاص قائمة الدول
         const uniqueCountries = [...new Set(data.map((row) => row.country))];
         setCountries(uniqueCountries.sort());
       },
@@ -35,7 +35,7 @@ function App() {
     });
   }, []);
 
-  // عند تغيير الدولة، نظهر المدن الخاصة بها
+  // عند تغيير الدولة، نُظهر المدن الخاصة بها
   const handleCountryChange = (e) => {
     const selected = e.target.value;
     setSelectedCountry(selected);
@@ -43,7 +43,7 @@ function App() {
     setSelectedRow(null);
 
     if (selected) {
-      // جلب كل المدن المربوطة بهذه الدولة
+      // جلب كل المدن المرتبطة بهذه الدولة
       const filtered = csvData.filter((row) => row.country === selected);
       const uniqueCities = [...new Set(filtered.map((row) => row.governorate || row.city || row.governorate))];
       setCities(uniqueCities.sort());
@@ -64,8 +64,7 @@ function App() {
           (r.governorate === selected || r.city === selected)
       );
       if (row) {
-        // يمكن تخزين أكثر من صف لو كان هناك تواريخ متعددة
-        setSelectedRow({ ...row, city: selected }); 
+        setSelectedRow({ ...row, city: selected });
       }
     } else {
       setSelectedRow(null);
@@ -83,10 +82,15 @@ function App() {
     i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en');
   };
 
+  // لكتابة نص الزر بناءً على اللغة الحالية
+  const languageButtonText = i18n.language === 'en' ? 'العربية' : 'English';
+
   return (
     <div className="app-container">
       <div className="lang-switch">
-        <button onClick={toggleLanguage}>{t('languageSwitch')}</button>
+        <button className="language-button" onClick={toggleLanguage}>
+          {languageButtonText}
+        </button>
       </div>
 
       {!selectedRow && (
@@ -101,9 +105,9 @@ function App() {
       )}
 
       {selectedRow && (
-        <WeatherDisplay 
-          selectedRow={selectedRow} 
-          onBack={handleBack} 
+        <WeatherDisplay
+          selectedRow={selectedRow}
+          onBack={handleBack}
         />
       )}
     </div>

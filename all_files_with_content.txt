@@ -66,8 +66,6 @@ out/
   </body>
 </html>
 === C:\Users\Yasser Dhia (NDC)\Documents\GitHub\AI-weather-prediction\src\App.css ===
-/* src/App.css */
-
 /* Ø®Ù„ÙÙŠØ© Ø§Ù„ØµÙØ­Ø© Ø¨Ø§Ù„ÙƒØ§Ù…Ù„ */
 .app-container {
   min-height: 100vh;
@@ -77,69 +75,79 @@ out/
   padding: 2rem;
   color: #fff;
   font-family: sans-serif;
-  text-align: center;
-  position: relative; /* Ù„Ø¥ØªØ§Ø­Ø© ØªÙ…Ø±ÙƒØ² Ø§Ù„Ø¹Ù†Ø§ØµØ± Ù…Ø·Ù„Ù‚Ø§Ù‹ Ù…Ø«Ù„ Ø²Ø± Ø§Ù„Ù„ØºØ© */
+  position: relative;
 }
 
-/* Ø²Ø± ØªØ¨Ø¯ÙŠÙ„ Ø§Ù„Ù„ØºØ© Ø¨Ø´ÙƒÙ„ Ø¬Ø°Ø§Ø¨ */
+/* Ø²Ø± Ø§Ù„Ù„ØºØ© (Ø£ÙŠÙ‚ÙˆÙ†Ø©) */
 .lang-switch {
   position: absolute;
   top: 20px;
   right: 20px;
 }
 
+/* Ø£ÙŠÙ‚ÙˆÙ†Ø© ØªØ¯Ù„ Ø¹Ù„Ù‰ Ø§Ù„ØªØ±Ø¬Ù…Ø© */
 .language-button {
   background: linear-gradient(90deg, #4b6cb7, #182848);
   color: #fff;
   border: none;
-  padding: 0.7rem 1.2rem;
+  padding: 0.6rem 0.8rem;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 10px;
   font-weight: 600;
   transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .language-button:hover {
   background: linear-gradient(90deg, #182848, #4b6cb7);
 }
 
-/* Ø²Ø± ØªØºÙŠÙŠØ± Ø§Ù„Ù„ØºØ© Ø§Ù„Ø³Ø§Ø¨Ù‚ */
-.lang-switch button {
-  margin-bottom: 1rem; /* ÙŠÙ…ÙƒÙ† Ø¥Ø²Ø§Ù„ØªÙ‡ Ø£Ùˆ ØªØ¹Ø¯ÙŠÙ„Ù‡ */
+.language-button .material-icons {
+  font-size: 24px; 
+}
+
+/* Ø§Ù„Ø­Ø§ÙˆÙŠØ© Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ© Ù„Ø¹Ø±Ø¶ Ø§Ù„Ù€ select ÙŠÙ…ÙŠÙ†/ÙŠØ³Ø§Ø± */
+.layout-container {
+  width: 100%;
+  margin-top: 80px; /* Ø¥Ø²Ø§Ø­Ø© Ù„Ù„Ø£Ø³ÙÙ„ Ù„ÙŠØ¸Ù‡Ø± Ø£Ø³ÙÙ„ Ø²Ø± Ø§Ù„Ù„ØºØ© */
+  display: flex;
+}
+
+.layout-container.ltr {
+  justify-content: flex-start; /* ÙÙŠ Ø§Ù„Ù„ØºØ© Ø§Ù„Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠØ© */
+}
+
+.layout-container.rtl {
+  justify-content: flex-end; /* ÙÙŠ Ø§Ù„Ù„ØºØ© Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© */
 }
 
 /* Ù…Ø¸Ù‡Ø± Ø¹Ø§Ù… Ù„Ù„Ù‚ÙˆØ§Ø¦Ù… Ø§Ù„Ù…Ù†Ø³Ø¯Ù„Ø© */
 .select-container {
-  margin: 1rem auto;
+  width: 250px;
   padding: 1rem;
   background: rgba(0, 0, 0, 0.5);
-  display: inline-block;
   border-radius: 8px;
+  margin: 0 2rem;
+  text-align: left;
 }
 
 .select-container label {
-  margin: 0 0.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
   font-weight: bold;
 }
 
 .select-container select {
-  margin: 0 0.5rem;
-  padding: 0.3rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.4rem;
   border-radius: 4px;
   border: 1px solid #ccc;
 }
 
-/* Ø¨Ø·Ø§Ù‚Ø© Ø¹Ø±Ø¶ Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø§Øª */
-.weather-card {
-  margin: 1rem auto;
-  padding: 1rem 2rem;
-  max-width: 600px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
-  text-align: left;
-}
-
-/* ØªØ­ÙƒÙ… Ø¨Ø´ÙƒÙ„ Ø²Ø± Ø§Ù„Ø¹ÙˆØ¯Ø© */
+/* Ø²Ø± Ø§Ù„Ø¹ÙˆØ¯Ø© */
 .back-button {
   background: #444;
   color: #fff;
@@ -153,35 +161,55 @@ out/
   background: #666;
 }
 
-/* Ø¨Ø¹Ø¶ Ù…Ø¤Ø«Ø±Ø§Øª Ø§Ù†ØªÙ‚Ø§Ù„ (Fade-In) */
-.animate-fade-in {
-  animation: fadeIn 0.8s ease-in-out forwards;
+/* Ø­Ø§ÙˆÙŠØ© Ø§Ù„Ø¨Ø·Ø§Ù‚Ø§Øª */
+.weather-cards-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  text-align: center;
 }
 
+/* Ù…Ø¬Ù…ÙˆØ¹Ø© Ø§Ù„Ø¨Ø·Ø§Ù‚Ø§Øª */
+.cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„ØªÙˆÙ‚Ø¹Ø§Øª Ù„ÙƒÙ„ ÙŠÙˆÙ… */
+.forecast-card {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  width: 220px;
+  padding: 1rem;
+  text-align: left;
+  position: relative;
+  animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+.forecast-card h3 {
+  margin-top: 0;
+  color: #ffd700; /* Ù„ÙˆÙ† Ù…Ù…ÙŠØ² Ù„Ù„ØªØ§Ø±ÙŠØ® */
+}
+
+.forecast-card p {
+  margin: 0.3rem 0;
+}
+
+/* Ù…Ø¤Ø«Ø±Ø§Øª Ø§Ù†ØªÙ‚Ø§Ù„ (Fade-In) */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
-/* ØªÙ†Ø³ÙŠÙ‚ Ø§Ù„Ø¬Ø¯ÙˆÙ„ Ø¯Ø§Ø®Ù„ Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„Ø·Ù‚Ø³ */
-.weather-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-
-.weather-table td {
-  padding: 0.5rem;
-  border-bottom: 1px solid #555;
-}
-
-.weather-table td:first-child {
-  font-weight: bold;
-  width: 40%;
-  color: #ddd;
-  text-transform: capitalize;
-}
-
 === C:\Users\Yasser Dhia (NDC)\Documents\GitHub\AI-weather-prediction\src\App.js ===
 // src/App.js
 import React, { useEffect, useState } from 'react';
@@ -195,9 +223,12 @@ function App() {
   const [csvData, setCsvData] = useState([]);
   const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
+  
+  // Ø³ÙŠØªÙ… ØªØ®Ø²ÙŠÙ† ÙƒÙ„ Ø§Ù„ØµÙÙˆÙ Ø§Ù„ØªØ§Ø¨Ø¹Ø© Ù„Ù„Ù…Ø­Ø§ÙØ¸Ø© Ø§Ù„Ù…Ø®ØªØ§Ø±Ø© ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…ØªØºÙŠÙ‘Ø±
+  const [selectedRows, setSelectedRows] = useState([]);
+
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
-  const [selectedRow, setSelectedRow] = useState(null);
 
   const { i18n } = useTranslation();
 
@@ -220,44 +251,44 @@ function App() {
     });
   }, []);
 
-  // Ø¹Ù†Ø¯ ØªØºÙŠÙŠØ± Ø§Ù„Ø¯ÙˆÙ„Ø©ØŒ Ù†ÙØ¸Ù‡Ø± Ø§Ù„Ù…Ø¯Ù† Ø§Ù„Ø®Ø§ØµØ© Ø¨Ù‡Ø§
+  // Ø¹Ù†Ø¯ ØªØºÙŠÙŠØ± Ø§Ù„Ø¯ÙˆÙ„Ø©ØŒ Ù†ÙØ¸Ù‡Ø± Ø§Ù„Ù…Ø¯Ù†/Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª Ø§Ù„Ø®Ø§ØµØ© Ø¨Ù‡Ø§
   const handleCountryChange = (e) => {
     const selected = e.target.value;
     setSelectedCountry(selected);
     setSelectedCity('');
-    setSelectedRow(null);
+    setSelectedRows([]); // Ø¥Ø¹Ø§Ø¯Ø© Ø§Ù„ØªÙ‡ÙŠØ¦Ø©
 
     if (selected) {
-      // Ø¬Ù„Ø¨ ÙƒÙ„ Ø§Ù„Ù…Ø¯Ù† Ø§Ù„Ù…Ø±ØªØ¨Ø·Ø© Ø¨Ù‡Ø°Ù‡ Ø§Ù„Ø¯ÙˆÙ„Ø©
+      // Ø¬Ù„Ø¨ ÙƒÙ„ Ø§Ù„Ù…Ø¯Ù†/Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª Ø§Ù„Ù…Ø±ØªØ¨Ø·Ø© Ø¨Ù‡Ø°Ù‡ Ø§Ù„Ø¯ÙˆÙ„Ø©
       const filtered = csvData.filter((row) => row.country === selected);
-      const uniqueCities = [...new Set(filtered.map((row) => row.governorate || row.city || row.governorate))];
+      const uniqueCities = [...new Set(filtered.map((row) => row.governorate || row.city))];
       setCities(uniqueCities.sort());
     } else {
       setCities([]);
     }
   };
 
-  // Ø¹Ù†Ø¯ Ø§Ø®ØªÙŠØ§Ø± Ù…Ø¯ÙŠÙ†Ø©ØŒ Ù†Ø³ØªØ®Ø±Ø¬ Ø§Ù„ØµÙ Ø§Ù„Ù…Ù†Ø§Ø³Ø¨ Ù…Ù† Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª
+  // Ø¹Ù†Ø¯ Ø§Ø®ØªÙŠØ§Ø± Ù…Ø¯ÙŠÙ†Ø©/Ù…Ø­Ø§ÙØ¸Ø©
   const handleCityChange = (e) => {
     const selected = e.target.value;
     setSelectedCity(selected);
 
     if (selected) {
-      const row = csvData.find(
+      // Ù†Ø¬Ù„Ø¨ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø³Ø¬Ù„Ø§Øª Ø§Ù„Ø®Ø§ØµØ© Ø¨Ù‡Ø°Ù‡ Ø§Ù„Ù…Ø¯ÙŠÙ†Ø© (Ø£Ùˆ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©)
+      const filteredRows = csvData.filter(
         (r) =>
           r.country === selectedCountry &&
           (r.governorate === selected || r.city === selected)
       );
-      if (row) {
-        setSelectedRow({ ...row, city: selected });
-      }
+      setSelectedRows(filteredRows);
     } else {
-      setSelectedRow(null);
+      setSelectedRows([]);
     }
   };
 
+  // Ø²Ø± Ø§Ù„Ø±Ø¬ÙˆØ¹ Ø¥Ù„Ù‰ Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¯ÙˆÙ„Ø©/Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©
   const handleBack = () => {
-    setSelectedRow(null);
+    setSelectedRows([]);
     setSelectedCountry('');
     setSelectedCity('');
   };
@@ -267,18 +298,20 @@ function App() {
     i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en');
   };
 
-  // Ù„ÙƒØªØ§Ø¨Ø© Ù†Øµ Ø§Ù„Ø²Ø± Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ø§Ù„Ù„ØºØ© Ø§Ù„Ø­Ø§Ù„ÙŠØ©
-  const languageButtonText = i18n.language === 'en' ? 'Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©' : 'English';
-
   return (
     <div className="app-container">
+      {/* Ø²Ø± Ø§Ù„Ù„ØºØ© (Ø£ÙŠÙ‚ÙˆÙ†Ø©) */}
       <div className="lang-switch">
         <button className="language-button" onClick={toggleLanguage}>
-          {languageButtonText}
+          {/* ÙŠÙ…ÙƒÙ†Ùƒ ÙˆØ¶Ø¹ Ø£ÙŠÙ‚ÙˆÙ†Ø© Font Awesome Ù…Ø«Ù„Ø§Ù‹ Ø£Ùˆ Ø£ÙŠÙ‚ÙˆÙ†Ø© SVG ØªØ¹Ø¨Ù‘Ø± Ø¹Ù† Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ */}
+          <span className="material-icons">
+            translate
+          </span>
         </button>
       </div>
 
-      {!selectedRow && (
+      {/* Ø­Ø§ÙˆÙŠØ© Ù„Ø¹Ø±Ø¶ Ø¹Ù†Ø§ØµØ± Ø§Ù„Ø§Ø®ØªÙŠØ§Ø± Ø¥Ù…Ø§ ÙÙŠ Ø§Ù„ÙŠØ³Ø§Ø± Ø£Ùˆ Ø§Ù„ÙŠÙ…ÙŠÙ† Ø­Ø³Ø¨ Ø§Ù„Ù„ØºØ© */}
+      <div className={`layout-container ${i18n.language === 'ar' ? 'rtl' : 'ltr'}`}>
         <CountryCitySelect
           countries={countries}
           selectedCountry={selectedCountry}
@@ -287,11 +320,14 @@ function App() {
           selectedCity={selectedCity}
           onCityChange={handleCityChange}
         />
-      )}
+      </div>
 
-      {selectedRow && (
+      {/* Ø¥Ø°Ø§ ÙƒØ§Ù† Ù„Ø¯ÙŠÙ†Ø§ ØµÙÙˆÙ Ù…Ø®ØªØ§Ø±Ø© (Ù…Ø¯ÙŠÙ†Ø© Ù…Ø®ØªØ§Ø±Ø©) Ù†Ø¹Ø±Ø¶ Ø§Ù„Ø·Ù‚Ø³ */}
+      {selectedRows.length > 0 && (
         <WeatherDisplay
-          selectedRow={selectedRow}
+          selectedRows={selectedRows}
+          selectedCountry={selectedCountry}
+          selectedCity={selectedCity}
           onBack={handleBack}
         />
       )}
@@ -357,7 +393,7 @@ const CountryCitySelect = ({
   selectedCity,
   onCityChange
 }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div className="select-container">
@@ -371,13 +407,13 @@ const CountryCitySelect = ({
         <option value="">{t('selectCountry')}</option>
         {countries.map((country, index) => (
           <option key={index} value={country}>
-            {/* Ù†Ø³ØªØ®Ø¯Ù… Ø§Ù„ØªØ±Ø¬Ù…Ø© Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ù…ÙØªØ§Ø­ countries ÙÙŠ translation.json */}
+            {/* Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„ØªØ±Ø¬Ù…Ø© Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ù…ÙØªØ§Ø­ countries ÙÙŠ translation.json */}
             {t(`countries.${country}`, country)}
           </option>
         ))}
       </select>
 
-      {/* Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù…Ø¯ÙŠÙ†Ø© */}
+      {/* Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©/Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø© */}
       {selectedCountry && (
         <>
           <label htmlFor="city-select">{t('selectCity')}: </label>
@@ -385,7 +421,7 @@ const CountryCitySelect = ({
             <option value="">{t('selectCity')}</option>
             {cities.map((city, index) => (
               <option key={index} value={city}>
-                {/* Ù†Ø³ØªØ®Ø¯Ù… Ø§Ù„ØªØ±Ø¬Ù…Ø© Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ù…ÙØªØ§Ø­ cities ÙÙŠ translation.json */}
+                {/* Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„ØªØ±Ø¬Ù…Ø© Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ù…ÙØªØ§Ø­ cities ÙÙŠ translation.json */}
                 {t(`cities.${city}`, city)}
               </option>
             ))}
@@ -402,78 +438,73 @@ export default CountryCitySelect;
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const WeatherDisplay = ({ selectedRow, onBack }) => {
-  const { t } = useTranslation();
+const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack }) => {
+  const { t, i18n } = useTranslation();
 
-  if (!selectedRow) return null;
+  if (!selectedRows || selectedRows.length === 0) return null;
+
+  // Ø§Ù„ÙŠÙˆÙ… (Ø§Ù„ÙˆÙ‚Øª Ø§Ù„Ø­Ø§Ù„ÙŠ)
+  const today = new Date();
+  // Ù†Ø±ÙŠØ¯ Ø¹Ø±Ø¶ Ø§Ù„Ø£ÙŠØ§Ù… Ø§Ù„ØªÙŠ ØªÙƒÙˆÙ† >= Ø§Ù„ØºØ¯
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  // ØªØµÙÙŠØ© Ø§Ù„Ø³Ø¬Ù„Ø§Øª Ø¨Ø­ÙŠØ« ØªÙƒÙˆÙ† ØªÙˆØ§Ø±ÙŠØ®Ù‡Ø§ Ù…Ø³ØªÙ‚Ø¨Ù„ÙŠØ© (Ø£ÙƒØ¨Ø± Ø£Ùˆ ÙŠØ³Ø§ÙˆÙŠ tomorrow)
+  const futureData = selectedRows.filter((row) => {
+    const rowDate = new Date(row.date);
+    return rowDate >= tomorrow;
+  });
+
+  // ØªØ±ØªÙŠØ¨ Ø§Ù„Ø³Ø¬Ù„Ø§Øª ØªØµØ§Ø¹Ø¯ÙŠØ§Ù‹ Ø­Ø³Ø¨ Ø§Ù„ØªØ§Ø±ÙŠØ®
+  futureData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  // Ø¥Ø°Ø§ Ù„Ù… ÙŠÙˆØ¬Ø¯ Ø£ÙŠ Ø£ÙŠØ§Ù… Ù…Ø³ØªÙ‚Ø¨Ù„ÙŠØ©ØŒ ÙŠÙ…ÙƒÙ† Ø¹Ø±Ø¶ Ø±Ø³Ø§Ù„Ø© Ø£Ùˆ Ø´ÙŠØ¡
+  if (futureData.length === 0) {
+    return (
+      <div className="weather-cards-container">
+        <button onClick={onBack} className="back-button">
+          {t('backToSelect')}
+        </button>
+        <h2>
+          {t(`cities.${selectedCity}`, selectedCity)} - {t(`countries.${selectedCountry}`, selectedCountry)}
+        </h2>
+        <p>{t('noFutureData') || 'No Future Data Available.'}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="weather-card animate-fade-in">
+    <div className="weather-cards-container">
       <button onClick={onBack} className="back-button">
         {t('backToSelect')}
       </button>
+
       <h2>
-        {t(`cities.${selectedRow.city}`, selectedRow.city)} - {t(`countries.${selectedRow.country}`, selectedRow.country)}
+        {t(`cities.${selectedCity}`, selectedCity)} - {t(`countries.${selectedCountry}`, selectedCountry)}
       </h2>
 
-      {/* Ø¬Ø¯ÙˆÙ„ Ø£ÙƒØ«Ø± Ø§Ø­ØªØ±Ø§ÙÙŠØ© Ù„Ø¹Ø±Ø¶ Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø§Øª */}
-      <table className="weather-table">
-        <tbody>
-          <tr>
-            <td>{t('date')}</td>
-            <td>{selectedRow.date}</td>
-          </tr>
-          <tr>
-            <td>{t('season')}</td>
-            <td>{selectedRow.season}</td>
-          </tr>
-          <tr>
-            <td>{t('maxTemp')}</td>
-            <td>{Number(selectedRow.maxtemp_c).toFixed(1)}</td>
-          </tr>
-          <tr>
-            <td>{t('minTemp')}</td>
-            <td>{Number(selectedRow.mintemp_c).toFixed(1)}</td>
-          </tr>
-          <tr>
-            <td>{t('avgTemp')}</td>
-            <td>
-              {(
-                (Number(selectedRow.maxtemp_c) + Number(selectedRow.mintemp_c)) /
-                2
-              ).toFixed(1)}
-            </td>
-          </tr>
-          <tr>
-            <td>{t('predictedTemp')}</td>
-            <td>{Number(selectedRow['Predicted Avg Temp']).toFixed(1)}</td>
-          </tr>
-          <tr>
-            <td>{t('rangeTemp')}</td>
-            <td>{Number(selectedRow.temp_range).toFixed(1)}</td>
-          </tr>
-          <tr>
-            <td>{t('humidity')}</td>
-            <td>{Number(selectedRow.avghumidity).toFixed(1)}</td>
-          </tr>
-          <tr>
-            <td>{t('wind')}</td>
-            <td>{Number(selectedRow.maxwind_mph).toFixed(1)}</td>
-          </tr>
-          <tr>
-            <td>{t('precip')}</td>
-            <td>{Number(selectedRow.totalprecip_mm).toFixed(2)}</td>
-          </tr>
-          <tr>
-            <td>{t('visibility')}</td>
-            <td>{Number(selectedRow.avgvis_km).toFixed(1)}</td>
-          </tr>
-          <tr>
-            <td>{t('uvIndex')}</td>
-            <td>{Number(selectedRow.uv_index).toFixed(1)}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="cards-wrapper">
+        {futureData.map((row, index) => {
+          return (
+            <div className="forecast-card" key={index}>
+              <h3>{t('date')}: {row.date}</h3>
+              <p>{t('season')}: {row.season}</p>
+              <p>{t('maxTemp')}: {Number(row.maxtemp_c).toFixed(2)}</p>
+              <p>{t('minTemp')}: {Number(row.mintemp_c).toFixed(2)}</p>
+              <p>{t('avgTemp')}: {(
+                (Number(row.maxtemp_c) + Number(row.mintemp_c)) / 2
+              ).toFixed(2)}</p>
+              <p>{t('predictedTemp')}: {Number(row['Predicted Avg Temp']).toFixed(2)}</p>
+              <p>{t('rangeTemp')}: {Number(row.temp_range).toFixed(2)}</p>
+              <p>{t('humidity')}: {Number(row.avghumidity).toFixed(2)}</p>
+              <p>{t('wind')}: {Number(row.maxwind_mph).toFixed(2)}</p>
+              <p>{t('precip')}: {Number(row.totalprecip_mm).toFixed(2)}</p>
+              <p>{t('visibility')}: {Number(row.avgvis_km).toFixed(2)}</p>
+              <p>{t('uvIndex')}: {Number(row.uv_index).toFixed(2)}</p>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -539,8 +570,10 @@ export default WeatherDisplay;
     "Karbala": "ÙƒØ±Ø¨Ù„Ø§Ø¡",
     "Najaf": "Ø§Ù„Ù†Ø¬Ù",
     "Qadisiyah": "Ø§Ù„Ù‚Ø§Ø¯Ø³ÙŠØ©",
-    "Muthanna": "Ø§Ù„Ù…Ø«Ù†Ù‰"
+    "Muthanna": "Ø§Ù„Ù…Ø«Ù†Ù‰",
+    "noFutureData": "No future data available"
   }
+  
 }
 === C:\Users\Yasser Dhia (NDC)\Documents\GitHub\AI-weather-prediction\src\locales\en\translation.json ===
 {
@@ -602,6 +635,8 @@ export default WeatherDisplay;
     "Karbala": "Karbala",
     "Najaf": "Najaf",
     "Qadisiyah": "Qadisiyah",
-    "Muthanna": "Muthanna"
+    "Muthanna": "Muthanna",
+    "noFutureData": "No future data available"
+    
   }
 }

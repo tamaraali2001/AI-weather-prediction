@@ -64,8 +64,80 @@
 
     <!-- JavaScript يبقى كما هو بدون تغيير -->
     <script>
-        // ... الكود الأصلي كما هو ...
+        $(document).ready(function () {
+            // تحميل الدول عند فتح الصفحة
+            $.getJSON("/get_countries/", function (data) {
+                const countries = data.countries;
+                $("#country").html('<option value="">{% trans "--Select a Country--" %}</option>');
+                countries.forEach(function (country) {
+                    $("#country").append(`<option value="${country}">${country}</option>`);
+                });
+            });
+    
+            // تحديث المحافظات بناءً على الدولة
+            $("#country").change(function () {
+                const country = $(this).val();
+                if (country) {
+                    $.getJSON("/get_provinces/", { country: country }, function (data) {
+                        const provinces = data.provinces;
+                        $("#province").html('<option value="">{% trans "--Select a Province--" %}</option>');
+                        provinces.forEach(function (province) {
+                            $("#province").append(`<option value="${province}">${province}</option>`);
+                        });
+                        $("#province").prop("disabled", false);
+                    }).fail(function () {
+                        alert("{% trans 'Error fetching provinces.' %}");
+                        $("#province").prop("disabled", true);
+                    });
+                } else {
+                    $("#province").html('<option value="">{% trans "--Select a Province--" %}</option>').prop("disabled", true);
+                }
+            });
+    
+            // تفعيل زر "Get Weather" عند اختيار محافظة
+            $("#province").change(function () {
+                const province = $(this).val();
+                if (province) {
+                    $("#getWeather").prop("disabled", false);
+                } else {
+                    $("#getWeather").prop("disabled", true);
+                }
+            });
+    
+            // عرض الطقس بناءً على الدولة والمحافظة المختارة
+            $("#getWeather").click(function () {
+                const country = $("#country").val();
+                const province = $("#province").val();
+    
+                if (country && province) {
+                    $.getJSON("/get_weather/", { country: country, province: province }, function (data) {
+                        if (data.weather) {
+                            const weatherInfo = data.weather.map(info => `
+                                <div class="weather-card">
+                                    <h3>${info.date}</h3>
+                                    <p><strong>{% trans "Max Temp:" %}</strong> ${info.maxtemp_c}°C</p>
+                                    <p><strong>{% trans "Min Temp:" %}</strong> ${info.mintemp_c}°C</p>
+                                    <p><strong>{% trans "Wind Speed:" %}</strong> ${info.maxwind_mph} mph</p>
+                                    <p><strong>{% trans "Precipitation:" %}</strong> ${info.totalprecip_mm} mm</p>
+                                    <p><strong>{% trans "Visibility:" %}</strong> ${info.avgvis_km} km</p>
+                                    <p><strong>{% trans "Humidity:" %}</strong> ${info.avghumidity}%</p>
+                                    <p><strong>{% trans "UV Index:" %}</strong> ${info.uv_index}</p>
+                                </div>
+                            `).join('');
+                            $("#weatherInfo").html(weatherInfo);
+                        } else {
+                            alert("{% trans 'No weather data found.' %}");
+                        }
+                    }).fail(function () {
+                        alert("{% trans 'Error fetching weather data.' %}");
+                    });
+                } else {
+                    alert("{% trans 'Please select both a country and a province.' %}");
+                }
+            });
+        });
     </script>
+    
 </body>
 </html>
 

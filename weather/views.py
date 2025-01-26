@@ -6,6 +6,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import activate
 from django.conf import settings
 
+
 def home(request):
     # تغيير اللغة بناءً على طلب المستخدم
     lang = request.GET.get('lang')
@@ -15,7 +16,7 @@ def home(request):
     
     # تحميل البيانات وترجمة أسماء الدول
     df = load_weather_data()
-    countries = df["country"].unique().tolist()
+    countries = df["country"].dropna().unique().tolist()  # التأكد من عدم وجود قيم مفقودة
     
     # إنشاء قائمة بأزواج (اسم الأصل، الاسم المترجم)
     translated_countries = [(country, _(country)) for country in countries]
@@ -24,19 +25,38 @@ def home(request):
         "countries": translated_countries
     })
 
+
 def load_weather_data():
-    df = pd.read_csv("future_weather_predictions.csv")
-    return df
+    # تحميل ملف الطقس
+    try:
+        df = pd.read_csv("future_weather_predictions.csv")
+        return df
+    except FileNotFoundError:
+        raise Exception("File 'future_weather_predictions.csv' not found. Please ensure it exists in the project directory.")
+
 
 def get_provinces(request):
+    # الحصول على المحافظات بناءً على الدولة المختارة
     country = request.GET.get('country')
     if country:
         df = load_weather_data()
-        provinces = df[df['country'] == country]['governorate'].unique().tolist()
+        provinces = df[df['country'] == country]['governorate'].dropna().unique().tolist()  # التأكد من عدم وجود قيم مفقودة
         return JsonResponse({'provinces': provinces})
     return JsonResponse({'error': 'No country provided'}, status=400)
 
+from django.http import JsonResponse
+from .views import load_weather_data
+
+def get_countries(request):
+    # تحميل بيانات الطقس
+    df = load_weather_data()
+    # الحصول على قائمة الدول الفريدة
+    countries = df['country'].dropna().unique().tolist()
+    return JsonResponse({'countries': countries})
+
+
 def get_weather(request):
+    # الحصول على بيانات الطقس بناءً على الدولة والمحافظة المختارة
     country = request.GET.get('country')
     province = request.GET.get('province')
     

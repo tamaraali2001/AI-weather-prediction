@@ -16,6 +16,9 @@
   "backToSelect": "Back to Selection",
   "languageSwitch": "English",
   "logo": "Weather Platform",
+  "condition_text": "Condition",
+  "weatherForecastFor": "Weather Forecast For",
+  "back": "Back",
   "seasons": {
     "spring": "Spring",
     "summer": "Summer",

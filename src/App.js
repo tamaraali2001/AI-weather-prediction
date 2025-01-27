@@ -37,19 +37,30 @@ function App() {
     });
   }, []);
 
-  // تحديد اليوم التالي
-  const getNextDay = () => {
+  // تحديد نطاق التواريخ (اليوم التالي ولمدة 7 أيام)
+  const getDateRange = () => {
     const today = new Date();
-    const nextDay = new Date(today);
-    nextDay.setDate(today.getDate() + 1);
-    // صياغة التاريخ بصيغة YYYY-MM-DD (تأكد من توافقها مع صيغة تاريخ CSV)
-    const year = nextDay.getFullYear();
-    const month = String(nextDay.getMonth() + 1).padStart(2, '0');
-    const day = String(nextDay.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() + 1); // اليوم التالي
+
+    const endDate = new Date(today);
+    endDate.setDate(today.getDate() + 7); // لمدة 7 أيام من اليوم التالي
+
+    // صياغة التواريخ بصيغة YYYY-MM-DD
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    return {
+      start: formatDate(startDate),
+      end: formatDate(endDate),
+    };
   };
 
-  const nextDay = getNextDay();
+  const { start, end } = getDateRange();
 
   // معالجة تغيير البلد
   const handleCountryChange = (e) => {
@@ -79,7 +90,8 @@ function App() {
         (r) =>
           r.country === selectedCountry &&
           (r.governorate === selected || r.city === selected) &&
-          r.date === nextDay // تأكد من أن الحقل يحتوي على التاريخ المناسب
+          r.date >= start &&
+          r.date <= end
       );
       setSelectedRows(filteredRows);
     } else {

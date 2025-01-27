@@ -20,6 +20,7 @@ function WeatherDisplay({ selectedRows, selectedCountry, selectedCity, onBack })
             <p>{t('maxtemp_c')}: {Number(row.maxtemp_c).toFixed(2)}°C</p>
             <p>{t('mintemp_c')}: {Number(row.mintemp_c).toFixed(2)}°C</p>
             <p>{t('predicted_avgtemp_c')}: {Number(row.predicted_avgtemp_c).toFixed(2)}°C</p>
+            <p>{t('avgtemp_c')}: {Number(row.avgtemp_c).toFixed(2)}°C</p>
             <p>{t('temp_range')}: {Number(row.temp_range).toFixed(2)}°C</p>
             <p>{t('humidity')}: {Number(row.avghumidity).toFixed(2)}%</p>
             <p>{t('wind')}: {Number(row.maxwind_mph).toFixed(2)} mph</p>

@@ -16,6 +16,9 @@
   "backToSelect": "العودة إلى الاختيار",
   "languageSwitch": "English",
   "logo": "منصة الطقس",
+  "back": "عودة",
+  "weatherForecastFor": "توقعات الطقس لـ",
+    "condition_text": "حالة الطقس",
   "seasons": {
     "spring": "الربيع",
     "summer": "الصيف",

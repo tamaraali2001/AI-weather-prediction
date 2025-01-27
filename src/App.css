@@ -17,7 +17,7 @@ body {
 
 /* شريط علوي (Navbar) */
 .navbar {
-  background: linear-gradient(45deg, #0066cc, #003366);
+  background: linear-gradient(45deg, #254361, #4074a8);
   padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
@@ -55,7 +55,7 @@ body {
 .hero-section {
   position: relative;
   height: 400px;
-  background: url("https://images.unsplash.com/photo-1535905667929-044dbbe3c2fc?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+  background: url("C:\Users\Yasser Dhia (NDC)\Documents\GitHub\AI-weather-prediction\src\assets\shutterstock.jpg.webp") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;

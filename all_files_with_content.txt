@@ -318,18 +318,18 @@ function App() {
   const [selectedCity, setSelectedCity] = useState('');
   const { i18n, t } = useTranslation();
 
-  // Ù‚Ø±Ø§Ø¡Ø© Ù…Ù„Ù CSV Ù…Ù† public
+  // ØªØ­Ù…ÙŠÙ„ Ø¨ÙŠØ§Ù†Ø§Øª CSV Ù…Ù† public
   useEffect(() => {
     Papa.parse('/future_weather_predictions.csv', {
       download: true,
       header: true,
       complete: (results) => {
         const data = results.data;
-        // Ø¥Ø²Ø§Ù„Ø© Ø§Ù„ØµÙÙˆÙ Ø§Ù„ÙØ§Ø±ØºØ© Ø£Ùˆ ØºÙŠØ± Ø§Ù„Ù…ÙƒØªÙ…Ù„Ø©
+        // ÙÙ„ØªØ±Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ØªÙŠ ØªØ­ØªÙˆÙŠ Ø¹Ù„Ù‰ Ø§Ù„Ø¨Ù„Ø¯ ÙˆØ§Ù„Ù…Ø¯ÙŠÙ†Ø© Ø£Ùˆ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø§Øª
         const filteredData = data.filter(row => row.country && (row.governorate || row.city));
         setCsvData(filteredData);
 
-        // Ø§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„Ø¯ÙˆÙ„
+        // Ø§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„Ø¨Ù„Ø¯Ø§Ù† Ø§Ù„ÙØ±ÙŠØ¯Ø© ÙˆØªØ±ØªÙŠØ¨Ù‡Ø§
         const uniqueCountries = [...new Set(filteredData.map((row) => row.country))];
         setCountries(uniqueCountries.sort());
       },
@@ -339,7 +339,32 @@ function App() {
     });
   }, []);
 
-  // ØªØ­Ø¯ÙŠØ« Ø§Ù„Ù…Ø¯Ù† Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ø§Ù„Ø¯ÙˆÙ„Ø©
+  // ØªØ­Ø¯ÙŠØ¯ Ù†Ø·Ø§Ù‚ Ø§Ù„ØªÙˆØ§Ø±ÙŠØ® (Ø§Ù„ÙŠÙˆÙ… Ø§Ù„ØªØ§Ù„ÙŠ ÙˆÙ„Ù…Ø¯Ø© 7 Ø£ÙŠØ§Ù…)
+  const getDateRange = () => {
+    const today = new Date();
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() + 1); // Ø§Ù„ÙŠÙˆÙ… Ø§Ù„ØªØ§Ù„ÙŠ
+
+    const endDate = new Date(today);
+    endDate.setDate(today.getDate() + 7); // Ù„Ù…Ø¯Ø© 7 Ø£ÙŠØ§Ù… Ù…Ù† Ø§Ù„ÙŠÙˆÙ… Ø§Ù„ØªØ§Ù„ÙŠ
+
+    // ØµÙŠØ§ØºØ© Ø§Ù„ØªÙˆØ§Ø±ÙŠØ® Ø¨ØµÙŠØºØ© YYYY-MM-DD
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    return {
+      start: formatDate(startDate),
+      end: formatDate(endDate),
+    };
+  };
+
+  const { start, end } = getDateRange();
+
+  // Ù…Ø¹Ø§Ù„Ø¬Ø© ØªØºÙŠÙŠØ± Ø§Ù„Ø¨Ù„Ø¯
   const handleCountryChange = (e) => {
     const selected = e.target.value;
     setSelectedCountry(selected);
@@ -357,7 +382,7 @@ function App() {
     }
   };
 
-  // ØªØ­Ø¯ÙŠØ« Ø§Ù„ØµÙÙˆÙ Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©
+  // Ù…Ø¹Ø§Ù„Ø¬Ø© ØªØºÙŠÙŠØ± Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©
   const handleCityChange = (e) => {
     const selected = e.target.value;
     setSelectedCity(selected);
@@ -366,7 +391,9 @@ function App() {
       const filteredRows = csvData.filter(
         (r) =>
           r.country === selectedCountry &&
-          (r.governorate === selected || r.city === selected)
+          (r.governorate === selected || r.city === selected) &&
+          r.date >= start &&
+          r.date <= end
       );
       setSelectedRows(filteredRows);
     } else {
@@ -374,14 +401,14 @@ function App() {
     }
   };
 
-  // Ø±Ø¬ÙˆØ¹ Ø¥Ù„Ù‰ Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¯ÙˆÙ„Ø© ÙˆØ§Ù„Ù…Ø¯ÙŠÙ†Ø©
+  // Ø²Ø± Ø§Ù„Ø¹ÙˆØ¯Ø©
   const handleBack = () => {
     setSelectedRows([]);
     setSelectedCountry('');
     setSelectedCity('');
   };
 
-  // ØªØ¨Ø¯ÙŠÙ„ Ø§Ù„Ù„ØºØ©
+  // ØªØºÙŠÙŠØ± Ø§Ù„Ù„ØºØ©
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en');
   };
@@ -398,7 +425,7 @@ function App() {
         <div className="logo">{t('logo')}</div>
         <div className="lang-switch">
           <button className="language-button" onClick={toggleLanguage}>
-            {/* Ø£ÙŠÙ‚ÙˆÙ†Ø© Ø§Ù„Ø¹Ø§Ù„Ù… Ù…Ù† react-icons */}
+            {/* Ø£ÙŠÙ‚ÙˆÙ†Ø© Ø§Ù„ÙƒØ±Ø© Ø§Ù„Ø£Ø±Ø¶ÙŠØ© Ù…Ù† react-icons */}
             <FaGlobe style={{ marginRight: '4px' }} />
             {i18n.language === 'en' ? 'AR' : 'EN'}
           </button>
@@ -409,13 +436,13 @@ function App() {
       <section className="hero-section">
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          {/* ÙŠÙ…ÙƒÙ†Ùƒ Ø¥Ø¶Ø§ÙØ© Ù…Ø­ØªÙˆÙ‰ Ø¢Ø®Ø± Ù‡Ù†Ø§ Ø¥Ø°Ø§ Ø£Ø±Ø¯Øª */}
+          {/* Ù…Ø­ØªÙˆÙ‰ Ù‚Ø³Ù… Ø§Ù„Ø¨Ø·Ù„ Ø¥Ø°Ø§ Ù„Ø²Ù… Ø§Ù„Ø£Ù…Ø± */}
         </div>
       </section>
 
-      {/* Ù…Ø­ØªÙˆÙ‰ Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¯ÙˆÙ„Ø© ÙˆØ§Ù„Ù…Ø¯ÙŠÙ†Ø© Ø£Ùˆ Ø¹Ø±Ø¶ Ø§Ù„Ø·Ù‚Ø³ */}
+      {/* Ø­Ø§ÙˆÙŠØ© Ø§Ù„Ù…Ø­ØªÙˆÙ‰ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠ */}
       <div className="container">
-        {/* Ø´Ø§Ø´Ø© Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¯ÙˆÙ„Ø© ÙˆØ§Ù„Ù…Ø¯ÙŠÙ†Ø© */}
+        {/* Ù†Ù…ÙˆØ°Ø¬ Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¨Ù„Ø¯ ÙˆØ§Ù„Ù…Ø¯ÙŠÙ†Ø© */}
         {selectedRows.length === 0 && (
           <CountryCitySelect
             countries={countries}
@@ -427,7 +454,7 @@ function App() {
           />
         )}
 
-        {/* Ø´Ø§Ø´Ø© Ø¹Ø±Ø¶ Ø§Ù„Ø·Ù‚Ø³ */}
+        {/* Ø¹Ø±Ø¶ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø·Ù‚Ø³ */}
         {selectedRows.length > 0 && (
           <WeatherDisplay
             selectedRows={selectedRows}
@@ -438,7 +465,7 @@ function App() {
         )}
       </div>
 
-      {/* ØªÙ… Ø­Ø°Ù Ø§Ù„ØªØ°ÙŠÙŠÙ„ */}
+      {/* Ø§Ù„ÙÙˆØªØ± Ø¥Ø°Ø§ Ù„Ø²Ù… Ø§Ù„Ø£Ù…Ø± */}
     </div>
   );
 }
@@ -1541,13 +1568,14 @@ function WeatherDisplay({ selectedRows, selectedCountry, selectedCity, onBack })
             <h3>{row.date}</h3>
             <p>{t('maxtemp_c')}: {Number(row.maxtemp_c).toFixed(2)}Â°C</p>
             <p>{t('mintemp_c')}: {Number(row.mintemp_c).toFixed(2)}Â°C</p>
-            <p>{t('Predicted Avg Temp')}: {Number(row['Predicted Avg Temp']).toFixed(2)}Â°C</p>
+            <p>{t('predicted_avgtemp_c')}: {Number(row.predicted_avgtemp_c).toFixed(2)}Â°C</p>
+            <p>{t('avgtemp_c')}: {Number(row.avgtemp_c).toFixed(2)}Â°C</p>
             <p>{t('temp_range')}: {Number(row.temp_range).toFixed(2)}Â°C</p>
             <p>{t('humidity')}: {Number(row.avghumidity).toFixed(2)}%</p>
             <p>{t('wind')}: {Number(row.maxwind_mph).toFixed(2)} mph</p>
             <p>{t('precip')}: {Number(row.totalprecip_mm).toFixed(2)} mm</p>
             <p>{t('visibility')}: {Number(row.avgvis_km).toFixed(2)} km</p>
-            <p>{t('uvIndex')}: {Number(row.uv_index).toFixed(2)}</p>
+            <p>{t('condition_text')}: {row.condition_text}</p>
           </div>
         ))}
       </div>
@@ -1575,6 +1603,9 @@ export default WeatherDisplay;
   "backToSelect": "Ø§Ù„Ø¹ÙˆØ¯Ø© Ø¥Ù„Ù‰ Ø§Ù„Ø§Ø®ØªÙŠØ§Ø±",
   "languageSwitch": "English",
   "logo": "Ù…Ù†ØµØ© Ø§Ù„Ø·Ù‚Ø³",
+  "back": "Ø¹ÙˆØ¯Ø©",
+  "weatherForecastFor": "ØªÙˆÙ‚Ø¹Ø§Øª Ø§Ù„Ø·Ù‚Ø³ Ù„Ù€",
+    "condition_text": "Ø­Ø§Ù„Ø© Ø§Ù„Ø·Ù‚Ø³",
   "seasons": {
     "spring": "Ø§Ù„Ø±Ø¨ÙŠØ¹",
     "summer": "Ø§Ù„ØµÙŠÙ",
@@ -1688,6 +1719,9 @@ export default WeatherDisplay;
   "backToSelect": "Back to Selection",
   "languageSwitch": "English",
   "logo": "Weather Platform",
+  "condition_text": "Condition",
+  "weatherForecastFor": "Weather Forecast For",
+  "back": "Back",
   "seasons": {
     "spring": "Spring",
     "summer": "Summer",

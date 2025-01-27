@@ -1,13 +1,10 @@
-// App.js
+// src/App.js
 import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import CountryCitySelect from './components/CountryCitySelect';
 import WeatherDisplay from './components/WeatherDisplay';
 import { useTranslation } from 'react-i18next';
-
-// مكتبة الأيقونات
 import { FaGlobe } from 'react-icons/fa';
-
 import './App.css';
 
 function App() {
@@ -19,17 +16,19 @@ function App() {
   const [selectedCity, setSelectedCity] = useState('');
   const { i18n, t } = useTranslation();
 
-  // عند تحميل التطبيق نجلب ملف CSV من فولدر public
+  // قراءة ملف CSV من public
   useEffect(() => {
     Papa.parse('/future_weather_predictions.csv', {
       download: true,
       header: true,
       complete: (results) => {
         const data = results.data;
-        setCsvData(data);
+        // إزالة الصفوف الفارغة أو غير المكتملة
+        const filteredData = data.filter(row => row.country && (row.governorate || row.city));
+        setCsvData(filteredData);
 
-        // استخراج قائمة الدول
-        const uniqueCountries = [...new Set(data.map((row) => row.country))];
+        // استخراج الدول
+        const uniqueCountries = [...new Set(filteredData.map((row) => row.country))];
         setCountries(uniqueCountries.sort());
       },
       error: (err) => {
@@ -38,7 +37,7 @@ function App() {
     });
   }, []);
 
-  // تغيير الدولة
+  // تحديث المدن بناءً على الدولة
   const handleCountryChange = (e) => {
     const selected = e.target.value;
     setSelectedCountry(selected);
@@ -56,7 +55,7 @@ function App() {
     }
   };
 
-  // اختيار المدينة
+  // تحديث الصفوف بناءً على المدينة
   const handleCityChange = (e) => {
     const selected = e.target.value;
     setSelectedCity(selected);
@@ -73,7 +72,7 @@ function App() {
     }
   };
 
-  // زر الرجوع للاختيار
+  // رجوع إلى اختيار الدولة والمدينة
   const handleBack = () => {
     setSelectedRows([]);
     setSelectedCountry('');
@@ -85,30 +84,36 @@ function App() {
     i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en');
   };
 
+  // تحديث عنوان الصفحة بناءً على اللغة
+  useEffect(() => {
+    document.title = t('logo');
+  }, [i18n.language, t]);
+
   return (
     <div className={i18n.language === 'ar' ? 'rtl' : ''}>
-      {/* شريط علوي (Navbar) */}
+      {/* شريط التنقل (Navbar) */}
       <nav className="navbar">
-     <div className="logo">{t('logo')}</div>
-    <div className="lang-switch">
-    <button className="language-button" onClick={toggleLanguage}>
-      <FaGlobe style={{ marginRight: '4px' }} />
-      {i18n.language === 'en' ? 'AR' : 'EN'}
-    </button>
-  </div>
-</nav>
+        <div className="logo">{t('logo')}</div>
+        <div className="lang-switch">
+          <button className="language-button" onClick={toggleLanguage}>
+            {/* أيقونة العالم من react-icons */}
+            <FaGlobe style={{ marginRight: '4px' }} />
+            {i18n.language === 'en' ? 'AR' : 'EN'}
+          </button>
+        </div>
+      </nav>
 
-
-      {/* قسم بانر (Hero Section) */}
+      {/* قسم البطل */}
       <section className="hero-section">
         <div className="hero-overlay"></div>
         <div className="hero-content">
+          {/* يمكنك إضافة محتوى آخر هنا إذا أردت */}
         </div>
       </section>
 
-      {/* حاوية عامة تحتوى صندوق اختيار الدولة/المدينة */}
+      {/* محتوى اختيار الدولة والمدينة أو عرض الطقس */}
       <div className="container">
-        {/* مكون الاختيار */}
+        {/* شاشة اختيار الدولة والمدينة */}
         {selectedRows.length === 0 && (
           <CountryCitySelect
             countries={countries}
@@ -120,7 +125,7 @@ function App() {
           />
         )}
 
-        {/* إذا تم اختيار صفوف معينة نعرض الطقس */}
+        {/* شاشة عرض الطقس */}
         {selectedRows.length > 0 && (
           <WeatherDisplay
             selectedRows={selectedRows}
@@ -131,8 +136,7 @@ function App() {
         )}
       </div>
 
-      {/* فوتر اختياري */}
-    
+      {/* تم حذف التذييل */}
     </div>
   );
 }

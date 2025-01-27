@@ -89,15 +89,15 @@ function App() {
     <div className={i18n.language === 'ar' ? 'rtl' : ''}>
       {/* شريط علوي (Navbar) */}
       <nav className="navbar">
-        <div className="logo">AI Weather</div>
-        <div className="lang-switch">
-          <button className="language-button" onClick={toggleLanguage}>
-            {/* أيقونة من react-icons */}
-            <FaGlobe style={{ marginRight: '4px' }} />
-            {/* يمكن كتابة أي نص أو جعله مجرد أيقونة */}
-          </button>
-        </div>
-      </nav>
+     <div className="logo">{t('logo')}</div>
+    <div className="lang-switch">
+    <button className="language-button" onClick={toggleLanguage}>
+      <FaGlobe style={{ marginRight: '4px' }} />
+      {i18n.language === 'en' ? 'AR' : 'EN'}
+    </button>
+  </div>
+</nav>
+
 
       {/* قسم بانر (Hero Section) */}
       <section className="hero-section">
@@ -134,9 +134,7 @@ function App() {
       </div>
 
       {/* فوتر اختياري */}
-      <footer className="footer">
-        &copy; 2025 AI Weather. All rights reserved.
-      </footer>
+    
     </div>
   );
 }

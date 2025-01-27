@@ -103,8 +103,6 @@ function App() {
       <section className="hero-section">
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          <h1>{t('appTitle') || 'AI Weather Prediction'}</h1>
-          <p>{t('appSubtitle') || 'Accurate future weather predictions powered by AI'}</p>
         </div>
       </section>
 

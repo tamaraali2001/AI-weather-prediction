@@ -16,18 +16,18 @@ function App() {
   const [selectedCity, setSelectedCity] = useState('');
   const { i18n, t } = useTranslation();
 
-  // قراءة ملف CSV من public
+  // تحميل بيانات CSV من public
   useEffect(() => {
     Papa.parse('/future_weather_predictions.csv', {
       download: true,
       header: true,
       complete: (results) => {
         const data = results.data;
-        // إزالة الصفوف الفارغة أو غير المكتملة
+        // فلترة البيانات التي تحتوي على البلد والمدينة أو المحافظات
         const filteredData = data.filter(row => row.country && (row.governorate || row.city));
         setCsvData(filteredData);
 
-        // استخراج الدول
+        // استخراج البلدان الفريدة وترتيبها
         const uniqueCountries = [...new Set(filteredData.map((row) => row.country))];
         setCountries(uniqueCountries.sort());
       },
@@ -37,7 +37,21 @@ function App() {
     });
   }, []);
 
-  // تحديث المدن بناءً على الدولة
+  // تحديد اليوم التالي
+  const getNextDay = () => {
+    const today = new Date();
+    const nextDay = new Date(today);
+    nextDay.setDate(today.getDate() + 1);
+    // صياغة التاريخ بصيغة YYYY-MM-DD (تأكد من توافقها مع صيغة تاريخ CSV)
+    const year = nextDay.getFullYear();
+    const month = String(nextDay.getMonth() + 1).padStart(2, '0');
+    const day = String(nextDay.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const nextDay = getNextDay();
+
+  // معالجة تغيير البلد
   const handleCountryChange = (e) => {
     const selected = e.target.value;
     setSelectedCountry(selected);
@@ -55,7 +69,7 @@ function App() {
     }
   };
 
-  // تحديث الصفوف بناءً على المدينة
+  // معالجة تغيير المدينة
   const handleCityChange = (e) => {
     const selected = e.target.value;
     setSelectedCity(selected);
@@ -64,7 +78,8 @@ function App() {
       const filteredRows = csvData.filter(
         (r) =>
           r.country === selectedCountry &&
-          (r.governorate === selected || r.city === selected)
+          (r.governorate === selected || r.city === selected) &&
+          r.date === nextDay // تأكد من أن الحقل يحتوي على التاريخ المناسب
       );
       setSelectedRows(filteredRows);
     } else {
@@ -72,14 +87,14 @@ function App() {
     }
   };
 
-  // رجوع إلى اختيار الدولة والمدينة
+  // زر العودة
   const handleBack = () => {
     setSelectedRows([]);
     setSelectedCountry('');
     setSelectedCity('');
   };
 
-  // تبديل اللغة
+  // تغيير اللغة
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en');
   };
@@ -96,7 +111,7 @@ function App() {
         <div className="logo">{t('logo')}</div>
         <div className="lang-switch">
           <button className="language-button" onClick={toggleLanguage}>
-            {/* أيقونة العالم من react-icons */}
+            {/* أيقونة الكرة الأرضية من react-icons */}
             <FaGlobe style={{ marginRight: '4px' }} />
             {i18n.language === 'en' ? 'AR' : 'EN'}
           </button>
@@ -107,13 +122,13 @@ function App() {
       <section className="hero-section">
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          {/* يمكنك إضافة محتوى آخر هنا إذا أردت */}
+          {/* محتوى قسم البطل إذا لزم الأمر */}
         </div>
       </section>
 
-      {/* محتوى اختيار الدولة والمدينة أو عرض الطقس */}
+      {/* حاوية المحتوى الرئيسي */}
       <div className="container">
-        {/* شاشة اختيار الدولة والمدينة */}
+        {/* نموذج اختيار البلد والمدينة */}
         {selectedRows.length === 0 && (
           <CountryCitySelect
             countries={countries}
@@ -125,7 +140,7 @@ function App() {
           />
         )}
 
-        {/* شاشة عرض الطقس */}
+        {/* عرض بيانات الطقس */}
         {selectedRows.length > 0 && (
           <WeatherDisplay
             selectedRows={selectedRows}
@@ -136,7 +151,7 @@ function App() {
         )}
       </div>
 
-      {/* تم حذف التذييل */}
+      {/* الفوتر إذا لزم الأمر */}
     </div>
   );
 }

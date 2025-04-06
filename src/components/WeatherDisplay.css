@@ -1,0 +1,143 @@
+/* src/components/WeatherDisplay.css */
+
+/* تغطية الشاشة كاملة بدون تجاوز */
+.weather-slider {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+/* حاوية السلايدر */
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ترتيب الشرائح أفقيًا مع انتقال سلس */
+.slider {
+  display: flex;
+  height: 100%;
+  transition: transform 0.7s ease-in-out;
+}
+
+/* كل شريحة تأخذ عرض الشاشة كامل */
+.slide {
+  flex: 0 0 100%;
+  position: relative;
+  height: 100%;
+}
+
+/* حاوية الوسائط */
+.media-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* تنسيق الفيديو ليملأ الشاشة */
+.weather-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* طبقة بيانات الطقس (Overlay) مع تأثير دخول بطيء */
+.overlay-info {
+  position: absolute;
+  top: 35%;
+  left: 35%;
+  /* transform: translate(-60%, -20%) rotate(5deg) scale(0.9); */
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  color: #fff;
+  text-align: center;
+  animation: fadeIn 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    /* transform: translate(-60%, -30%) rotate(5deg) scale(0.9); */
+  }
+  to {
+    opacity: 1;
+    /* transform: translate(-60%, -20%) rotate(5deg) scale(1); */
+  }
+}
+
+/* أزرار التنقل */
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(64, 116, 168, 0.7);
+  border: none;
+  color: #fff;
+  font-size: 2.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  z-index: 2;
+}
+
+.nav-button:hover:not(:disabled) {
+  background: rgba(37, 67, 97, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-button.prev {
+  left: 2%;
+}
+
+.nav-button.next {
+  right: 2%;
+}
+
+/* زر العودة */
+.back-button {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.3s ease;
+}
+
+.back-button:hover {
+  background: #c9302c;
+}
+
+/* تنسيق نصوص بيانات الطقس مع الأيقونات */
+.overlay-info h2 {
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.overlay-info p {
+  margin: 0.3rem 0;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-info p svg {
+  margin-right: 0.5rem;
+}

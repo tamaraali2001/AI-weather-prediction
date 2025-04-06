@@ -12,6 +12,7 @@ Where-Object {
     $_.Name -ne "favicon.ico" -and
     -not ($_.FullName -like "*\node_modules\*") -and
     -not ($_.FullName -like "*\venv\*") -and
+    -not ($_.FullName -like "*\assets\*") -and
     -not ($_.FullName -like "*\node\*") -and
     -not ($_.FullName -like "*\logs\*") -and
     -not ($_.FullName -like "*\fixtures\*") -and

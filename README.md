@@ -6,7 +6,7 @@ $outputFilePath = "all_files_with_content.txt"
 if (Test-Path $outputFilePath) {
     Remove-Item $outputFilePath
 }
-Get-ChildItem -Path "C:\Users\YASSER\Documents\GitHub\AI_Weather" -Recurse -File |
+Get-ChildItem -Path "C:\Users\Yasser Dhia (NDC)\Documents\GitHub\AI-weather-prediction" -Recurse -File |
 Where-Object {
     $_.Name -ne "package-lock.json" -and
     $_.Name -ne "favicon.ico" -and

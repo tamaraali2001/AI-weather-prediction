@@ -1,24 +1,39 @@
 // src/components/CountryCitySelect.js
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './CountryCitySelect.css';
 
-const CountryCitySelect = ({ countries, selectedCountry, onCountryChange, cities, selectedCity, onCityChange }) => {
+const CountryCitySelect = ({ 
+  countries, 
+  selectedCountry, 
+  onCountryChange, 
+  cities, 
+  selectedCity, 
+  onCityChange 
+}) => {
+  const { t } = useTranslation();
+
   return (
     <div className="select-container">
-      <label>Choose a Country:</label>
+      <label>{t('selectCountry')}:</label>
       <select value={selectedCountry} onChange={onCountryChange}>
-        <option value="">--Select Country--</option>
+        <option value="">{t('selectCountry')} --</option>
         {countries.map((country, idx) => (
-          <option key={idx} value={country}>{country}</option>
+          <option key={idx} value={country}>
+            {t(`countries.${country}`, { defaultValue: country })}
+          </option>
         ))}
       </select>
+
       {cities.length > 0 && (
         <>
-          <label>Choose a City:</label>
+          <label>{t('selectCity')}:</label>
           <select value={selectedCity} onChange={onCityChange}>
-            <option value="">--Select City--</option>
+            <option value="">{t('selectCity')} --</option>
             {cities.map((city, idx) => (
-              <option key={idx} value={city}>{city}</option>
+              <option key={idx} value={city}>
+                {t(`cities.${city}`, { defaultValue: city })}
+              </option>
             ))}
           </select>
         </>

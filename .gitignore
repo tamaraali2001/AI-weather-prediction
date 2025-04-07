@@ -18,3 +18,4 @@ build/
 out/
 .coverage
 assets/
+*.mp4

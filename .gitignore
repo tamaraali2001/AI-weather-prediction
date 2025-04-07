@@ -19,3 +19,4 @@ out/
 .coverage
 assets/
 *.mp4
+src/assets/sunny.mp4

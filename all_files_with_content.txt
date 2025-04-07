@@ -18,6 +18,10 @@ dist/
 build/
 out/
 .coverage
+assets/
+*.mp4
+src/assets/sunny.mp4
+*.mp4
 === C:\Users\Yasser Dhia (NDC)\Documents\GitHub\AI-weather-prediction\package.json ===
 {
   "name": "weather-app",
@@ -1056,13 +1060,17 @@ body {
 }
 
 .select-container select {
-  width: 100%;
+  width: 50%;
   padding: 0.5rem;
   margin-bottom: 1rem;
-  outline: none;
   border: 1px solid #ccc;
   border-radius: 4px;
+  outline: none;
+  /* Ø£Ø¶Ù Ø§Ù„Ø£Ø³Ø·Ø± Ø§Ù„ØªØ§Ù„ÙŠØ© Ø£Ùˆ Ø­Ø¯Ù‘Ø«Ù‡Ø§ Ø­Ø³Ø¨ Ø§Ù„Ø­Ø§Ø¬Ø©: */
+  background-color: #fff; 
+  color: #333;  /* Ù„Ø¶Ù…Ø§Ù† Ø¸Ù‡ÙˆØ± Ø§Ù„Ù†Øµ Ø¨Ù„ÙˆÙ† ÙˆØ§Ø¶Ø­ */
 }
+
 
 /* Ø²Ø± Ø§Ù„Ø¹ÙˆØ¯Ø© */
 .back-button {
@@ -1375,7 +1383,7 @@ root.render(
   }
   
   .select-container select {
-    width: 100%;
+    width: 50%;
     padding: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
@@ -1386,25 +1394,40 @@ root.render(
 === C:\Users\Yasser Dhia (NDC)\Documents\GitHub\AI-weather-prediction\src\components\CountryCitySelect.js ===
 // src/components/CountryCitySelect.js
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './CountryCitySelect.css';
 
-const CountryCitySelect = ({ countries, selectedCountry, onCountryChange, cities, selectedCity, onCityChange }) => {
+const CountryCitySelect = ({ 
+  countries, 
+  selectedCountry, 
+  onCountryChange, 
+  cities, 
+  selectedCity, 
+  onCityChange 
+}) => {
+  const { t } = useTranslation();
+
   return (
     <div className="select-container">
-      <label>Choose a Country:</label>
+      <label>{t('selectCountry')}:</label>
       <select value={selectedCountry} onChange={onCountryChange}>
-        <option value="">--Select Country--</option>
+        <option value="">{t('selectCountry')} --</option>
         {countries.map((country, idx) => (
-          <option key={idx} value={country}>{country}</option>
+          <option key={idx} value={country}>
+            {t(`countries.${country}`, { defaultValue: country })}
+          </option>
         ))}
       </select>
+
       {cities.length > 0 && (
         <>
-          <label>Choose a City:</label>
+          <label>{t('selectCity')}:</label>
           <select value={selectedCity} onChange={onCityChange}>
-            <option value="">--Select City--</option>
+            <option value="">{t('selectCity')} --</option>
             {cities.map((city, idx) => (
-              <option key={idx} value={city}>{city}</option>
+              <option key={idx} value={city}>
+                {t(`cities.${city}`, { defaultValue: city })}
+              </option>
             ))}
           </select>
         </>
@@ -1561,6 +1584,7 @@ export default CountryCitySelect;
 === C:\Users\Yasser Dhia (NDC)\Documents\GitHub\AI-weather-prediction\src\components\WeatherDisplay.js ===
 // src/components/WeatherDisplay.js
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';   // <-- Ø§Ø³ØªØ¯Ø¹Ø§Ø¡ Ø§Ù„ØªØ±Ø¬Ù…Ø©
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { 
   WiThermometer, 
@@ -1583,6 +1607,9 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
   const [currentIndex, setCurrentIndex] = useState(0);
   const totalDays = selectedRows.length;
 
+  // <-- Ø¥Ø¶Ø§ÙØ© Ø§Ù„ØªØ±Ø¬Ù…Ø©
+  const { t } = useTranslation();
+
   const handleNext = () => {
     if (currentIndex < totalDays - 1) {
       setCurrentIndex(currentIndex + 1);
@@ -1595,6 +1622,7 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
     }
   };
 
+  // ØªØ­Ø¯ÙŠØ¯ Ø§Ù„ØµÙ Ø§Ù„Ø­Ø§Ù„ÙŠ Ø§Ù„Ù…Ø¹Ø±ÙˆØ¶
   const currentData = selectedRows[currentIndex];
 
   // Ø¯Ø§Ù„Ø© Ù„ØªØ­Ø¯ÙŠØ¯ Ù…Ù„Ù Ø§Ù„ÙÙŠØ¯ÙŠÙˆ Ø¨Ù†Ø§Ø¡Ù‹ Ø¹Ù„Ù‰ Ø­Ø§Ù„Ø© Ø§Ù„Ø·Ù‚Ø³
@@ -1631,7 +1659,11 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
 
   return (
     <div className="weather-slider">
-      <button className="back-button" onClick={onBack}>Back</button>
+      {/* Ø²Ø± Ø§Ù„Ø±Ø¬ÙˆØ¹ ÙŠØ³ØªØ®Ø¯Ù… Ù…ÙØªØ§Ø­ Ø§Ù„ØªØ±Ø¬Ù…Ø© 'back' */}
+      <button className="back-button" onClick={onBack}>
+        {t('back')}
+      </button>
+
       <div className="slider-wrapper">
         <div
           className="slider"
@@ -1644,28 +1676,42 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
                 <div className="media-container">
                   <video className="weather-media" autoPlay loop muted>
                     <source src={mediaSrc} type="video/mp4" />
-                    Your browser does not support the video tag.
+                    {/* Ù…ÙØªØ§Ø­ ØªØ±Ø¬Ù…Ø© Ø§Ø®ØªÙŠØ§Ø±ÙŠ Ù…Ø«Ù„Ø§Ù‹ 'noVideoSupport' Ø£Ùˆ Ø£ÙŠ Ù†Øµ ØªØ±ÙŠØ¯Ù‡ */}
+                    {t('noVideoSupport', 'Your browser does not support the video tag.')}
                   </video>
+
                   <div className="overlay-info">
-                    <h2>{selectedCity} - {data.date}</h2>
+                    {/* Ù‡Ù†Ø§ Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ù…Ø¯ÙŠÙ†Ø© ÙˆØ§Ù„ØªØ§Ø±ÙŠØ® */}
+                    <h2>
+                      {selectedCity} - {data.date}
+                    </h2>
+
+                    {/* Ø¹Ø±Ø¶ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ù…Ø¹ Ù…ÙØ§ØªÙŠØ­ Ø§Ù„ØªØ±Ø¬Ù…Ø© */}
                     <p>
                       <WiThermometer size={24} style={{ verticalAlign: 'middle' }} /> 
-                      &nbsp;Max Temp: {data.maxtemp_c}Â°C
+                      &nbsp;{t('maxTemp')}: {data.maxtemp_c}Â°C
                     </p>
+
                     <p>
                       <WiThermometer size={24} style={{ verticalAlign: 'middle' }} /> 
-                      &nbsp;Min Temp: {data.mintemp_c}Â°C
+                      &nbsp;{t('minTemp')}: {data.mintemp_c}Â°C
                     </p>
+
                     <p>
                       <WiThermometer size={24} style={{ verticalAlign: 'middle' }} /> 
-                      &nbsp;Avg Temp: {data.avgtemp_c}Â°C
+                      &nbsp;{t('avgTemp')}: {data.avgtemp_c}Â°C
                     </p>
+
                     <p>
                       <WiHumidity size={24} style={{ verticalAlign: 'middle' }} /> 
-                      &nbsp;Humidity: {data.avghumidity}%
+                      &nbsp;{t('humidity')}: {data.avghumidity}%
                     </p>
+
                     <p>
-                      {getIconForCondition(data.condition_text)} &nbsp; {data.condition_text}
+                      {getIconForCondition(data.condition_text)} &nbsp; 
+                      {/* ÙŠÙ…ÙƒÙ† Ø§Ø³ØªØ¨Ø¯Ø§Ù„ Ø§Ù„Ù†Øµ Ø§Ù„Ø§Ù†Ø¬Ù„ÙŠØ²ÙŠ Ø¨Ø¹Ø±Ø¶Ù‡ ÙƒÙ…Ø§ Ù‡Ùˆ Ù…Ù† CSV 
+                          Ø£Ùˆ Ø¨ØªØ±Ø¬Ù…Ø© Ø¬Ø²Ø¦ÙŠØ© Ø¥Ù† ÙƒØ§Ù† Ù„Ø¯ÙŠÙƒ Ù…ÙØ§ØªÙŠØ­ Ù„Ø¸Ø±ÙˆÙ Ø§Ù„Ø·Ù‚Ø³ Ø§Ù„Ù…Ø®ØªÙ„ÙØ© */}
+                      {data.condition_text}
                     </p>
                   </div>
                 </div>
@@ -1673,10 +1719,21 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
             );
           })}
         </div>
-        <button className="nav-button prev" onClick={handlePrev} disabled={currentIndex === 0}>
+
+        {/* Ø£Ø²Ø±Ø§Ø± Ø§Ù„ØªÙ†Ù‚Ù„ Ø¨Ø§Ù„Ø³Ù„Ø§ÙŠØ¯Ø± */}
+        <button 
+          className="nav-button prev" 
+          onClick={handlePrev} 
+          disabled={currentIndex === 0}
+        >
           <FaArrowLeft />
         </button>
-        <button className="nav-button next" onClick={handleNext} disabled={currentIndex === totalDays - 1}>
+
+        <button 
+          className="nav-button next" 
+          onClick={handleNext} 
+          disabled={currentIndex === totalDays - 1}
+        >
           <FaArrowRight />
         </button>
       </div>
@@ -1687,14 +1744,14 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
 export default WeatherDisplay;
 === C:\Users\Yasser Dhia (NDC)\Documents\GitHub\AI-weather-prediction\src\locales\ar\translation.json ===
 {
-  "selectCountry": "Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¯ÙˆÙ„Ø©",
-  "selectCity": "Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©",
+  "selectCountry": "Ø§Ø®ØªØ± Ø§Ù„Ø¯ÙˆÙ„Ø©",
+  "selectCity": "Ø§Ø®ØªØ± Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©",
   "maxTemp": "Ø£Ø¹Ù„Ù‰ Ø¯Ø±Ø¬Ø© Ø­Ø±Ø§Ø±Ø© (Â°C)",
   "minTemp": "Ø£Ø¯Ù†Ù‰ Ø¯Ø±Ø¬Ø© Ø­Ø±Ø§Ø±Ø© (Â°C)",
   "avgTemp": "Ù…ØªÙˆØ³Ø· Ø§Ù„Ø­Ø±Ø§Ø±Ø© (Â°C)",
   "humidity": "Ø§Ù„Ø±Ø·ÙˆØ¨Ø©",
   "wind": "Ø§Ù„Ø±ÙŠØ§Ø­ (Ù…ÙŠÙ„ ÙÙŠ Ø§Ù„Ø³Ø§Ø¹Ø©)",
-  "precip": "Ø§Ù„Ù‡Ø·ÙˆÙ„ (Ù…Ù…)",
+  "precip": "Ø§Ù„Ù‡Ø·ÙˆÙ„ (Ù…Ù„Ù…)",
   "visibility": "Ø§Ù„Ø±Ø¤ÙŠØ© (ÙƒÙ…)",
   "uvIndex": "Ù…Ø¤Ø´Ø± Ø§Ù„Ø£Ø´Ø¹Ø© ÙÙˆÙ‚ Ø§Ù„Ø¨Ù†ÙØ³Ø¬ÙŠØ©",
   "season": "Ø§Ù„ÙØµÙ„",
@@ -1706,13 +1763,14 @@ export default WeatherDisplay;
   "logo": "Ù…Ù†ØµØ© Ø§Ù„Ø·Ù‚Ø³",
   "back": "Ø¹ÙˆØ¯Ø©",
   "weatherForecastFor": "ØªÙˆÙ‚Ø¹Ø§Øª Ø§Ù„Ø·Ù‚Ø³ Ù„Ù€",
-    "condition_text": "Ø­Ø§Ù„Ø© Ø§Ù„Ø·Ù‚Ø³",
+  "condition_text": "Ø­Ø§Ù„Ø© Ø§Ù„Ø·Ù‚Ø³",
   "seasons": {
     "spring": "Ø§Ù„Ø±Ø¨ÙŠØ¹",
     "summer": "Ø§Ù„ØµÙŠÙ",
     "autumn": "Ø§Ù„Ø®Ø±ÙŠÙ",
     "winter": "Ø§Ù„Ø´ØªØ§Ø¡"
   },
+
   "countries": {
     "Iraq": "Ø§Ù„Ø¹Ø±Ø§Ù‚",
     "Saudi Arabia": "Ø§Ù„Ø³Ø¹ÙˆØ¯ÙŠØ©",
@@ -1725,7 +1783,7 @@ export default WeatherDisplay;
     "Lebanon": "Ù„Ø¨Ù†Ø§Ù†",
     "UAE": "Ø§Ù„Ø¥Ù…Ø§Ø±Ø§Øª Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© Ø§Ù„Ù…ØªØ­Ø¯Ø©",
     "Qatar": "Ù‚Ø·Ø±",
-    "Oman": "Ø¹Ù…Ø§Ù†",
+    "Oman": "Ø¹ÙÙ…Ø§Ù†",
     "Yemen": "Ø§Ù„ÙŠÙ…Ù†",
     "Armenia": "Ø£Ø±Ù…ÙŠÙ†ÙŠØ§",
     "Azerbaijan": "Ø£Ø°Ø±Ø¨ÙŠØ¬Ø§Ù†",
@@ -1737,10 +1795,11 @@ export default WeatherDisplay;
     "Uzbekistan": "Ø£ÙˆØ²Ø¨ÙƒØ³ØªØ§Ù†",
     "Kazakhstan": "ÙƒØ§Ø²Ø§Ø®Ø³ØªØ§Ù†"
   },
+
   "cities": {
     "Baghdad": "Ø¨ØºØ¯Ø§Ø¯",
     "Basra": "Ø§Ù„Ø¨ØµØ±Ø©",
-    "Nineveh": "Ø§Ù„Ù†ÙŠÙ†ÙˆÙ‰",
+    "Nineveh": "Ù†ÙŠÙ†ÙˆÙ‰",
     "Diyala": "Ø¯ÙŠØ§Ù„Ù‰",
     "Salah al-Din": "ØµÙ„Ø§Ø­ Ø§Ù„Ø¯ÙŠÙ†",
     "Kirkuk": "ÙƒØ±ÙƒÙˆÙƒ",
@@ -1755,16 +1814,16 @@ export default WeatherDisplay;
     "Karbala": "ÙƒØ±Ø¨Ù„Ø§Ø¡",
     "Najaf": "Ø§Ù„Ù†Ø¬Ù",
     "Qadisiyah": "Ø§Ù„Ù‚Ø§Ø¯Ø³ÙŠØ©",
-    "Muthanna": "Ù…Ø«Ù†Ù‰",
+    "Muthanna": "Ø§Ù„Ù…Ø«Ù†Ù‰",
     "Riyadh": "Ø§Ù„Ø±ÙŠØ§Ø¶",
     "Jeddah": "Ø¬Ø¯Ø©",
     "Kuwait City": "Ù…Ø¯ÙŠÙ†Ø© Ø§Ù„ÙƒÙˆÙŠØª",
     "Hawalli": "Ø­ÙˆÙ„ÙŠ",
-    "Amman": "Ø¹Ù…Ø§Ù†",
+    "Amman": "Ø¹Ù…Ù‘Ø§Ù†",
     "Zarqa": "Ø§Ù„Ø²Ø±Ù‚Ø§Ø¡",
     "Damascus": "Ø¯Ù…Ø´Ù‚",
     "Aleppo": "Ø­Ù„Ø¨",
-    "Istanbul": "Ø§Ø³Ø·Ù†Ø¨ÙˆÙ„",
+    "Istanbul": "Ø¥Ø³Ø·Ù†Ø¨ÙˆÙ„",
     "Ankara": "Ø£Ù†Ù‚Ø±Ø©",
     "Tehran": "Ø·Ù‡Ø±Ø§Ù†",
     "Mashhad": "Ù…Ø´Ù‡Ø¯",
@@ -1781,7 +1840,7 @@ export default WeatherDisplay;
     "Sana'a": "ØµÙ†Ø¹Ø§Ø¡",
     "Aden": "Ø¹Ø¯Ù†",
     "Yerevan": "ÙŠØ±ÙŠÙØ§Ù†",
-    "Gyumri": "Ø¬ÙˆÙ…Ø±ÙŠ",
+    "Gyumri": "ØºÙŠÙˆÙ…Ø±ÙŠ",
     "Baku": "Ø¨Ø§ÙƒÙˆ",
     "Ganja": "ØºØ§Ù†Ø¬Ø§",
     "Tbilisi": "ØªØ¨Ù„ÙŠØ³ÙŠ",

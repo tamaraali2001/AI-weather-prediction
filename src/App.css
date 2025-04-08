@@ -55,7 +55,7 @@ body {
 .hero-section {
   position: relative;
   height: 400px;
-  background: url("C:\Users\YASSER\Documents\GitHub\AI-weather-prediction\src\assets\shutterstock.jpg.webp") center/cover no-repeat;
+  background: url("C:\Users\progr\Documents\GitHub\AI-weather-prediction\src\assets\shutterstock.jpg.webp") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,4 +1,4 @@
-/* ==== البطاقة الزرقاء الغامقة المثبَّتة في منتصف الصفحة ==== */
+/* ==== البطاقة الزرقاء الغامقة المثبّتة في منتصف الشاشة ==== */
 .select-container {
   background: #003366;
   border-radius: 14px;
@@ -7,66 +7,80 @@
   color: #ffffff;
   text-align: center;
   overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
+  /* التمركز والتثبيت الحقيقي في الوسط */
   position: fixed;
   top: 35%;
   left: 35%;
-  transform: translate(-50%, -50%);
-  width: min(90%, 580px);
+  transform: translate(-50%, -50%);   /* يضعها تماماً في الوسط */
+  width: min(92%, 580px);
   z-index: 150;
 }
-.select-container:hover { transform: translate(-50%, -52%); }
 
-/* إطار متدرّج */
-.fancy-border::before{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  z-index:-1;
-  border-radius:inherit;
-  background:linear-gradient(135deg,#0068cc,#00a3ff,#0068cc);
-  background-size:400% 400%;
-  animation:borderFlow 8s ease infinite;
-}
-@keyframes borderFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-
-/* عناوين */
-.animated-label{
-  display:block;
-  margin-bottom:0.6rem;
-  font-weight:600;
-  font-size:1.15rem;
-  color:#fff;
-  animation:fadeInRight .7s both;
-}
-@keyframes fadeInRight{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-
-/* القوائم */
-.select-container select{
-  width:100%;
-  padding:0.9rem 1rem;
-  margin-bottom:1.6rem;
-  border:none;
-  border-radius:8px;
-  font-size:1.05rem;
-  background:#fff;
-  color:#333;
-  cursor:pointer;
-  transition:box-shadow .25s,background .25s;
-  text-align:center;
-  text-align-last:center;
-}
-.select-container select:focus{
-  outline:none;
-  box-shadow:0 0 0 3px rgba(0,153,255,.35);
-}
-.select-container select[size]{overflow-y:auto}
-
-select option{
-  padding:0.6rem;
-  font-size:1.05rem;
+/* حدّ متدرّج متحرّك حول البطاقة */
+.fancy-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #0068cc, #00a3ff, #0068cc);
+  background-size: 400% 400%;
+  animation: borderFlow 8s ease infinite;
 }
 
-/* RTL */
-.rtl .select-container{direction:rtl}
+@keyframes borderFlow {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* عناوين الحقول */
+.animated-label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: #ffffff;
+  animation: fadeIn .6s ease-out both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* القوائم المنسدلة */
+.select-container select {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.6rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  background: #ffffff;
+  color: #333;
+  cursor: pointer;
+  transition: box-shadow 0.25s;
+  text-align: center;
+  text-align-last: center;   /* يدعم WebKit */
+}
+
+.select-container select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 153, 255, 0.35);
+}
+
+/* عند تفعيل size للتمرير الداخلي */
+.select-container select[size] {
+  overflow-y: auto;
+}
+
+/* خيارات القائمة */
+select option {
+  padding: 0.65rem;
+  font-size: 1.05rem;
+}
+
+/* دعم RTL */
+.rtl .select-container { direction: rtl; }

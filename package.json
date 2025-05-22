@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "framer-motion": "^12.12.1",
     "i18next": "^23.16.8",
     "lottie-web": "^5.12.2",
     "papaparse": "^5.5.1",

@@ -1,24 +1,69 @@
-/* src/components/CountryCitySelect.css */
+/* ==== بطاقة الاختيار بتصميم حديث وحواف متحركة ==== */
+
 .select-container {
-    background: #fff;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin-top: 2rem;
-  }
-  
-  .select-container label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-  }
-  
-  .select-container select {
-    width: 50%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-  }
-  
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 2rem 1.8rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  max-width: 900px;
+  margin: 2rem auto;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ارتفاع خفيف عند المرور بالفأرة */
+.select-container:hover {
+  transform: translateY(-4px);
+}
+
+/* إطار متدرّج حيّ يدور حول البطاقة */
+.fancy-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #0099ff, #6ec6ff, #0099ff);
+  background-size: 400% 400%;
+  animation: borderFlow 8s ease infinite;
+}
+
+@keyframes borderFlow {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* العناوين تدخل بحركة لطيفة */
+.animated-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  animation: fadeInRight 0.7s both;
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* تنسيق حقول select */
+.select-container select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 1.3rem;
+  border: 1px solid #d0d7e2;
+  border-radius: 8px;
+  background: #f9fafb;
+  font-size: 1rem;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.select-container select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(5, 51, 82, 0.781);
+  background: #ffffff;
+}
+
+/* دعم RTL تلقائياً عند وجود .rtl في الجذر */
+.rtl .select-container { direction: rtl; }

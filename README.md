@@ -3,24 +3,29 @@
 # Using PowerShell to get all path files with content, excluding "package-lock.json" and "node_modules" and "venv"
 
 $outputFilePath = "all_files_with_content.txt"
+
+# حذف الملف إذا كان موجودًا
 if (Test-Path $outputFilePath) {
     Remove-Item $outputFilePath
 }
+# استعراض الملفات وتصفية الملفات غير المرغوب فيها
 Get-ChildItem -Path "C:\Users\progr\Documents\GitHub\AI-weather-prediction" -Recurse -File |
 Where-Object {
     $_.Name -ne "package-lock.json" -and
     $_.Name -ne "favicon.ico" -and
-    -not ($_.FullName -like "\*\node_modules\*") -and
--not ($_.FullName -like "_\venv\*") -and
--not ($\_.FullName -like "_\assets\*") -and
--not ($_.FullName -like "*\node\*") -and
-    -not ($_.FullName -like "\*\logs\*") -and
--not ($_.FullName -like "_\fixtures\*") -and
--not ($\_.FullName -like "_\__pycache\_\_\*")
+    $_.Name -ne "future_weather_predictions.csv" -and
+    -not ($_.FullName -like "*\node_modules\*") -and
+    -not ($_.FullName -like "*\venv\*") -and
+    -not ($_.FullName -like "*\assets\*") -and
+    -not ($_.FullName -like "*\node\*") -and
+    -not ($_.FullName -like "*\logs\*") -and
+    -not ($_.FullName -like "*\fixtures\*") -and
+    -not ($_.FullName -like "*\__pycache__\*")
 } | ForEach-Object {
-"=== $($_.FullName) ===" | Out-File -FilePath $outputFilePath -Encoding UTF8 -Append
-Get-Content $\_.FullName | Out-File -FilePath $outputFilePath -Encoding UTF8 -Append
+    "=== $($_.FullName) ===" | Out-File -FilePath $outputFilePath -Encoding UTF8 -Append
+    Get-Content $_.FullName | Out-File -FilePath $outputFilePath -Encoding UTF8 -Append
 }
+
 
 ==========================================
 

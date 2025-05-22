@@ -37,24 +37,17 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
 
   const currentData = selectedRows[currentIndex];
 
-  // اختيار الفيديو حسب نوع الحالة
   const getMediaForCondition = (condition) => {
-    const cond = condition.toLowerCase();
-    if (cond.includes('rain')) {
-      return rainVideo;
-    } else if (cond.includes('snow')) {
-      return snowVideo;
-    } else if (cond.includes('cloud')) {
-      return cloudyVideo;
-    } else if (cond.includes('sunny')) {
-      return sunnyVideo;
-    }
+    const cond = condition?.toLowerCase() || "";
+    if (cond.includes('rain')) return rainVideo;
+    if (cond.includes('snow')) return snowVideo;
+    if (cond.includes('cloud')) return cloudyVideo;
+    if (cond.includes('sunny')) return sunnyVideo;
     return defaultVideo;
   };
 
-  // اختيار الأيقونة المناسبة
   const getIconForCondition = (condition) => {
-    const cond = condition.toLowerCase();
+    const cond = condition?.toLowerCase() || "";
     if (cond.includes('rain')) return <WiRain size={30} />;
     if (cond.includes('snow')) return <WiSnow size={30} />;
     if (cond.includes('cloud')) return <WiCloudy size={30} />;
@@ -69,59 +62,46 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
       </button>
 
       <div className="slider-wrapper">
-        {/* نجعل direction: ltr كي لا ينعكس السلايدر في اللغة العربية */}
-        <div
-          className="slider"
-          style={{
-            direction: 'ltr',
-            transform: `translateX(-${currentIndex * 100}%)`,
-          }}
-        >
+        <div className="slider" style={{
+          direction: 'ltr',
+          transform: `translateX(-${currentIndex * 100}%)`,
+        }}>
           {selectedRows.map((data, idx) => {
-            const mediaSrc = getMediaForCondition(data.condition_text);
+            const mediaSrc = getMediaForCondition(data.conditions);
             return (
               <div className="slide" key={idx}>
                 <div className="media-container">
-                  <video
-                    className="weather-media"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                  >
+                  <video className="weather-media" autoPlay loop muted playsInline preload="auto">
                     <source src={mediaSrc} type="video/mp4" />
                     {t('noVideoSupport', 'Your browser does not support the video tag.')}
                   </video>
 
                   <div className="overlay-info">
-                    <h2>
-                      {selectedCity} - {data.date}
-                    </h2>
+                    <h2>{selectedCity} - {data.date}</h2>
 
                     <p>
                       <WiThermometer size={24} style={{ verticalAlign: 'middle' }} />
-                      &nbsp;{t('maxTemp')}: {data.maxtemp_c}Â°C
+                      &nbsp;{t('maxTemp')}: {parseFloat(data.maxtemp_c).toFixed(1)}°C
                     </p>
 
                     <p>
                       <WiThermometer size={24} style={{ verticalAlign: 'middle' }} />
-                      &nbsp;{t('minTemp')}: {data.mintemp_c}Â°C
+                      &nbsp;{t('minTemp')}: {parseFloat(data.mintemp_c).toFixed(1)}°C
                     </p>
 
                     <p>
                       <WiThermometer size={24} style={{ verticalAlign: 'middle' }} />
-                      &nbsp;{t('avgTemp')}: {data.avgtemp_c}Â°C
+                      &nbsp;{t('avgTemp')}: {parseFloat(data.avgtemp_c).toFixed(1)}°C
                     </p>
 
                     <p>
                       <WiHumidity size={24} style={{ verticalAlign: 'middle' }} />
-                      &nbsp;{t('humidity')}: {data.avghumidity}%
+                      &nbsp;{t('humidity')}: {parseFloat(data.humidity).toFixed(0)}%
                     </p>
 
                     <p>
-                      {getIconForCondition(data.condition_text)} &nbsp;
-                      {data.condition_text}
+                      {getIconForCondition(data.conditions)} &nbsp;
+                      {data.conditions}
                     </p>
                   </div>
                 </div>
@@ -130,19 +110,11 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
           })}
         </div>
 
-        <button
-          className="nav-button prev"
-          onClick={handlePrev}
-          disabled={currentIndex === 0}
-        >
+        <button className="nav-button prev" onClick={handlePrev} disabled={currentIndex === 0}>
           <FaArrowLeft />
         </button>
 
-        <button
-          className="nav-button next"
-          onClick={handleNext}
-          disabled={currentIndex === totalDays - 1}
-        >
+        <button className="nav-button next" onClick={handleNext} disabled={currentIndex === totalDays - 1}>
           <FaArrowRight />
         </button>
       </div>

@@ -215,6 +215,31 @@ body {
   margin-top: 2rem;
   font-size: 0.9rem;
 }
+
+/* ====== footer redesign ====== */
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 0.5rem;
+  text-align: start;          /* يجعل القوائم بمحاذاة صحيحة */
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.4rem 0 0;
+}
+
+.footer li {
+  margin: 0.2rem 0;
+  font-size: 0.92rem;
+}
+
+/* دعم RTL تلقائي مع الكلاس الموجود سلفاً */
+.rtl .footer-content { direction: rtl; }
+
 /* في أعلى App.css أو آخره */
 
 /* طبقة تُعرض فوق المحتوى جزئياً */

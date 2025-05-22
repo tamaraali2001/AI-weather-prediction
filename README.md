@@ -3,12 +3,9 @@
 # Using PowerShell to get all path files with content, excluding "package-lock.json" and "node_modules" and "venv"
 
 $outputFilePath = "all_files_with_content.txt"
-
-# حذف الملف إذا كان موجودًا
 if (Test-Path $outputFilePath) {
     Remove-Item $outputFilePath
 }
-# استعراض الملفات وتصفية الملفات غير المرغوب فيها
 Get-ChildItem -Path "C:\Users\progr\Documents\GitHub\AI-weather-prediction" -Recurse -File |
 Where-Object {
     $_.Name -ne "package-lock.json" -and

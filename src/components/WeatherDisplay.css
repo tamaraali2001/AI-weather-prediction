@@ -49,7 +49,7 @@
 .overlay-info {
   position: absolute;
   top: 35%;
-  left: 35%;
+  left: 40%;
   /* transform: translate(-60%, -20%) rotate(5deg) scale(0.9); */
   background: rgba(0, 0, 0, 0.5);
   padding: 1.5rem 2rem;

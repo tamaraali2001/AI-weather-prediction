@@ -28,6 +28,7 @@ src/assets/sunny.mp4
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "framer-motion": "^12.12.1",
     "i18next": "^23.16.8",
     "lottie-web": "^5.12.2",
     "papaparse": "^5.5.1",
@@ -36,7 +37,8 @@ src/assets/sunny.mp4
     "react-i18next": "^11.18.6",
     "react-icons": "^5.5.0",
     "react-lottie-player": "^2.1.0",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "react-select": "^5.10.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -68,7 +70,6 @@ $outputFilePath = "all_files_with_content.txt"
 if (Test-Path $outputFilePath) {
     Remove-Item $outputFilePath
 }
-# Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ø§Ù„Ù…Ù„ÙØ§Øª ÙˆØªØµÙÙŠØ© Ø§Ù„Ù…Ù„ÙØ§Øª ØºÙŠØ± Ø§Ù„Ù…Ø±ØºÙˆØ¨ ÙÙŠÙ‡Ø§
 Get-ChildItem -Path "C:\Users\progr\Documents\GitHub\AI-weather-prediction" -Recurse -File |
 Where-Object {
     $_.Name -ne "package-lock.json" -and
@@ -107,24 +108,28 @@ npm start
   </body>
 </html>
 === C:\Users\progr\Documents\GitHub\AI-weather-prediction\src\App.css ===
-/* App.css */
-/* Ø¥Ø¹Ø§Ø¯Ø© Ø¶Ø¨Ø· Ø¨Ø¹Ø¶ Ø§Ù„Ù‚ÙŠÙ… Ø§Ù„Ø§ÙØªØ±Ø§Ø¶ÙŠØ© */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ===== Reset ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø®Ø· Ù„Ø·ÙŠÙ (Ù…Ø«Ø§Ù„: Open Sans) */
+/* ===== Ø®Ø· Ø¹Ø§Ù… ===== */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
 
+html, body { height: 100%; }
 body {
   font-family: 'Open Sans', sans-serif;
-  background-color: #f0f2f5;
+  background: url("./assets/shutterstock.jpg.webp") center/cover fixed no-repeat;
   color: #333;
+  padding-bottom: 110px;            /* Ù…Ø³Ø§Ø­Ø© Ù„Ù„ÙÙˆØªØ± Ø§Ù„Ø«Ø§Ø¨Øª */
+  overflow-x: hidden;               /* Ù…Ù†Ø¹ ØªÙ…Ø±ÙŠØ± Ø£ÙÙ‚ÙŠ */
 }
 
-/* Ø´Ø±ÙŠØ· Ø¹Ù„ÙˆÙŠ (Navbar) */
+/* Ø¹Ù†Ø¯ Ø¹Ø¯Ù… Ø§Ù„Ø­Ø§Ø¬Ø© Ù„Ù„ØªÙ…Ø±ÙŠØ± (ØªÙØ¹ÙŠÙ„Ù‡Ø§ Ø¨Ø¥Ø¶Ø§ÙØ© class Ù…Ù† React Ø¥Ù† Ø£Ø±Ø¯Øª) */
+body.no-scroll {
+  overflow-y: hidden;
+  padding-bottom: 0;
+}
+
+/* ===== Navbar ===== */
 .navbar {
   background: linear-gradient(45deg, #254361, #4074a8);
   padding: 0.5rem 1rem;
@@ -133,352 +138,197 @@ body {
   justify-content: space-between;
   color: #fff;
 }
+.navbar .logo { font-size: 1.5rem; font-weight: 600; }
 
-.navbar .logo {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.navbar .lang-switch {
-  position: static;
-}
-
-.navbar .language-button {
+.language-button {
   background: transparent;
   color: #fff;
   border: 1px solid #fff;
-  padding: 0.4rem 0.8rem;
+  padding: 0.45rem 1.1rem;
   border-radius: 25px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   transition: all 0.3s ease;
+}
+.language-button:hover { background: #fff; color: #003366; }
+
+/* ===== Ø§Ù„Ø·Ø¨Ù‚Ø© Ø§Ù„ØªÙŠ ØªØ­Ù…Ù„ Ø§Ù„ØµÙ†Ø¯ÙˆÙ‚ (Ù„Ù„Ù…Ø±ÙƒØ²Ø©) ===== */
+.selection-bg {
+  min-height: calc(100vh - 110px);   /* Ø´Ø§Ø´Ø© ÙƒØ§Ù…Ù„Ø© Ù†Ø§Ù‚Øµ Ø§Ù„ÙÙˆØªØ± */
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.navbar .language-button:hover {
-  background: #fff;
-  color: #003366;
-}
-
-/* Ø§Ù„Ø¨Ø§Ù†Ø± (Hero Section) - ØµÙˆØ±Ø© Ø®Ù„ÙÙŠØ© */
-.hero-section {
-  position: relative;
-  height: 400px;
-  background: url("C:\Users\progr\Documents\GitHub\AI-weather-prediction\src\assets\shutterstock.jpg.webp") center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 30, 60, 0.5);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
-
-.hero-content h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-}
-
-.hero-content p {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
-}
-
-/* Ø­Ø§ÙˆÙŠØ© Ø¹Ø§Ù…Ø© Ù„Ù„ØµÙØ­Ø© */
-.container {
-  max-width: 1200px;
-  margin: 2rem auto;
   padding: 0 1rem;
-}
-
-/* ØªÙ†Ø³ÙŠÙ‚ Ø¹Ø§Ù… Ù„Ù€ select-container */
-.select-container {
-  background: #fff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  /*margin-top: -3rem;  Ø±ÙØ¹ Ø§Ù„Ø­Ø§ÙˆÙŠØ© Ù‚Ù„ÙŠÙ„Ø§Ù‹ Ø¥Ù„Ù‰ ÙÙˆÙ‚ */
   position: relative;
-  z-index: 10;
 }
 
-.select-container label {
-  display: block;
-  margin-bottom: 0.25rem;
-  font-weight: 600;
-}
+/* (Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ø£ÙŠ ØªØ¹Ø±ÙŠÙ .select-container Ù‡Ù†Ø§ â€“ Ø£ØµØ¨Ø­ Ø­ØµØ±ÙŠÙ‹Ø§ ÙÙŠ CountryCitySelect.css) */
 
-.select-container select {
-  width: 50%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-  /* Ø£Ø¶Ù Ø§Ù„Ø£Ø³Ø·Ø± Ø§Ù„ØªØ§Ù„ÙŠØ© Ø£Ùˆ Ø­Ø¯Ù‘Ø«Ù‡Ø§ Ø­Ø³Ø¨ Ø§Ù„Ø­Ø§Ø¬Ø©: */
-  background-color: #fff; 
-  color: #333;  /* Ù„Ø¶Ù…Ø§Ù† Ø¸Ù‡ÙˆØ± Ø§Ù„Ù†Øµ Ø¨Ù„ÙˆÙ† ÙˆØ§Ø¶Ø­ */
-}
-
-
-/* Ø²Ø± Ø§Ù„Ø¹ÙˆØ¯Ø© */
-.back-button {
-  background-color: #d9534f;
-  color: #fff;
-  border: none;
-  margin-bottom: 1rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.3s ease;
-}
-.back-button:hover {
-  background-color: #c9302c;
-}
-
-/* Ø­Ø§ÙˆÙŠØ© Ø¹Ø±Ø¶ Ø§Ù„Ø·Ù‚Ø³ */
-.weather-cards-container {
-  margin: 2rem 0;
-  background: #fff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* Ø¹Ù†Ø§ÙˆÙŠÙ† Ø¯Ø§Ø®Ù„ Ø­Ø§ÙˆÙŠØ© Ø§Ù„Ø·Ù‚Ø³ */
-.weather-cards-container h2 {
-  margin-bottom: 1rem;
-  text-align: center;
-  font-weight: 600;
-  font-size: 1.3rem;
-}
-
-/* Ù…Ø¬Ù…ÙˆØ¹Ø© Ø§Ù„Ø¨Ø·Ø§Ù‚Ø§Øª */
-.cards-wrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-}
-
-/* Ø§Ù„Ø¨Ø·Ø§Ù‚Ø© Ù†ÙØ³Ù‡Ø§ */
-.forecast-card {
-  background: #fafafa;
-  border-radius: 8px;
-  padding: 1rem;
-  text-align: left;
-  position: relative;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
-.forecast-card:hover {
-  transform: translateY(-5px);
-}
-
-.forecast-card h3 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  color: #0066cc;
-  font-weight: 600;
-}
-.forecast-card p {
-  margin: 0.25rem 0;
-  font-size: 0.95rem;
-}
-
-/* ØªÙ†Ø³ÙŠÙ‚ RTL Ø¹Ù†Ø¯ Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¹Ø±Ø¨ÙŠØ© */
-.rtl {
-  direction: rtl;
-}
-
-.rtl .navbar {
-  justify-content: flex-start;
-}
-.rtl .navbar .logo {
-  margin-right: auto;
-  margin-left: 1rem;
-}
-.rtl .navbar .lang-switch {
-  margin-right: 1rem;
-}
-
-/* ÙÙˆØªØ± Ø§Ø®ØªÙŠØ§Ø±ÙŠ */
+/* ===== Footer Ø«Ø§Ø¨Øª ===== */
 .footer {
   background: #003366;
   color: #fff;
   text-align: center;
   padding: 0.7rem 1rem;
-  margin-top: 2rem;
   font-size: 0.9rem;
-}
-/* ÙÙŠ Ø£Ø¹Ù„Ù‰ App.css Ø£Ùˆ Ø¢Ø®Ø±Ù‡ */
-
-/* Ø·Ø¨Ù‚Ø© ØªÙØ¹Ø±Ø¶ ÙÙˆÙ‚ Ø§Ù„Ù…Ø­ØªÙˆÙ‰ Ø¬Ø²Ø¦ÙŠØ§Ù‹ */
-.weather-effect-overlay {
-  position: fixed; /* Ø­ØªÙ‰ ØªØ¸Ù‡Ø± ÙÙˆÙ‚ ÙƒÙ„ Ø´ÙŠØ¡ */
-  top: 0;
+  position: fixed;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  pointer-events: none; /* Ø­ØªÙ‰ Ù„Ø§ ØªØ¹ÙŠÙ‚ Ø§Ù„Ù†Ù‚Ø±Ø§Øª Ø¹Ù„Ù‰ Ø§Ù„Ù…Ø­ØªÙˆÙ‰ */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999; /* Ø¹Ø§Ù„ÙŠ ÙƒÙŠ ÙŠØ¸Ù‡Ø± ÙÙˆÙ‚ */
-  /* Ø®Ù„ÙÙŠØ© Ø´Ø¨Ù‡ Ø´ÙØ§ÙØ© Ø£Ùˆ Ø¨Ø¯ÙˆÙ† Ø®Ù„ÙÙŠØ© */
-  background-color: rgba(0, 0, 0, 0.01);
+  z-index: 100;
 }
+
+/* ===== Ø¯Ø¹Ù… RTL ===== */
+.rtl { direction: rtl; }
+.rtl .navbar            { justify-content: flex-start; }
+.rtl .navbar .logo      { margin-right: auto; margin-left: 1rem; }
+.rtl .language-button   { margin-right: 1rem; }
 === C:\Users\progr\Documents\GitHub\AI-weather-prediction\src\App.js ===
 // src/App.js
-import React, { useEffect, useState } from 'react';
-import Papa from 'papaparse';
-import CountryCitySelect from './components/CountryCitySelect';
-import WeatherDisplay from './components/WeatherDisplay';
-import { useTranslation } from 'react-i18next';
-import { FaGlobe } from 'react-icons/fa';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Papa from "papaparse";
+import CountryCitySelect from "./components/CountryCitySelect";
+import WeatherDisplay     from "./components/WeatherDisplay";
+import { useTranslation } from "react-i18next";
+import { FaGlobe }        from "react-icons/fa";
+import "./App.css";
 
 function App() {
-  const [csvData, setCsvData] = useState([]);
-  const [countries, setCountries] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
+  const [csvData,        setCsvData]        = useState([]);
+  const [countries,      setCountries]      = useState([]);
+  const [cities,         setCities]         = useState([]);
+  const [selectedRows,   setSelectedRows]   = useState([]);
+  const [selectedCountry,setSelectedCountry]= useState("");
+  const [selectedCity,   setSelectedCity]   = useState("");
   const { i18n, t } = useTranslation();
 
-  // ØªØ­Ù…ÙŠÙ„ Ø¨ÙŠØ§Ù†Ø§Øª CSV Ù…Ù† Ù…Ø¬Ù„Ø¯ public
+  /* âŸ¹ ØªØ­Ù…ÙŠÙ„ Ù…Ù„Ù CSV Ù…Ø±Ø© ÙˆØ§Ø­Ø¯Ø© */
   useEffect(() => {
-    Papa.parse('/future_weather_predictions.csv', {
+    Papa.parse("/future_weather_predictions.csv", {
       download: true,
-      header: true,
-      complete: (results) => {
-        const data = results.data;
-        // ÙÙ„ØªØ±Ø© Ø§Ù„ØµÙÙˆÙ Ø§Ù„ØªÙŠ ØªØ­ØªÙˆÙŠ Ø¹Ù„Ù‰ Ø§Ù„Ø¨Ù„Ø¯ ÙˆØ§Ø³Ù… Ø§Ù„Ù…Ø¯ÙŠÙ†Ø© Ø£Ùˆ Ø§Ù„Ù…Ø­Ø§ÙØ¸Ø©
-        const filteredData = data.filter(
-          (row) => row.country && (row.governorate || row.city)
+      header  : true,
+      complete: ({ data }) => {
+        const filtered = data.filter(
+          row => row.country && (row.governorate || row.city)
         );
-        setCsvData(filteredData);
-        // Ø§Ø³ØªØ®Ø±Ø§Ø¬ Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø¨Ù„Ø¯Ø§Ù† Ø§Ù„ÙØ±ÙŠØ¯Ø© ÙˆØªØ±ØªÙŠØ¨Ù‡Ø§
-        const uniqueCountries = [...new Set(filteredData.map(row => row.country))];
-        setCountries(uniqueCountries.sort());
+        setCsvData(filtered);
+        setCountries([...new Set(filtered.map(r => r.country))].sort());
       },
-      error: (err) => {
-        console.error('Error parsing CSV:', err);
-      }
+      error: err => console.error("Error parsing CSV:", err)
     });
   }, []);
 
-  // Ø¹Ù†Ø¯ ØªØºÙŠÙŠØ± Ø§Ù„Ø¨Ù„Ø¯
-  const handleCountryChange = (e) => {
-    const selected = e.target.value;
-    setSelectedCountry(selected);
-    setSelectedCity('');
+  /* âŸ¹ Ø¥Ø¶Ø§ÙØ©/Ø¥Ø²Ø§Ù„Ø© ÙƒÙ„Ø§Ø³ no-scroll Ù„Ù„Ù€ <body> */
+  useEffect(() => {
+    if (selectedRows.length === 0) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+    return () => document.body.classList.remove("no-scroll");
+  }, [selectedRows]);
+
+  /* âŸ¹ Ù…Ø¹Ø§Ù„Ø¬Ø© Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¯ÙˆÙ„Ø© */
+  const handleCountryChange = e => {
+    const val = e.target.value;
+    setSelectedCountry(val);
+    setSelectedCity("");
     setSelectedRows([]);
 
-    if (selected) {
-      const filtered = csvData.filter(row => row.country === selected);
-      const uniqueCities = [...new Set(filtered.map(row => row.governorate || row.city))];
-      setCities(uniqueCities.sort());
+    if (val) {
+      const filtered = csvData.filter(r => r.country === val);
+      setCities([...new Set(filtered.map(r => r.governorate || r.city))].sort());
     } else {
       setCities([]);
     }
   };
 
-  // Ø¹Ù†Ø¯ ØªØºÙŠÙŠØ± Ø§Ù„Ù…Ø¯ÙŠÙ†Ø© â€“ Ù†Ø²ÙŠÙ„ Ø´Ø±Ø· Ø§Ù„ØªØ§Ø±ÙŠØ® Ù„Ø¹Ø±Ø¶ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…ØªÙˆÙØ±Ø©
-  const handleCityChange = (e) => {
-    const selected = e.target.value;
-    setSelectedCity(selected);
+  /* âŸ¹ Ù…Ø¹Ø§Ù„Ø¬Ø© Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù…Ø¯ÙŠÙ†Ø© */
+  const handleCityChange = e => {
+    const val = e.target.value;
+    setSelectedCity(val);
 
-    if (selected) {
-      const filteredRows = csvData.filter(row =>
-        row.country === selectedCountry &&
-        (row.governorate === selected || row.city === selected)
-      );
-      // ØªØ±ØªÙŠØ¨ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø­Ø³Ø¨ Ø§Ù„ØªØ§Ø±ÙŠØ® (Ø§Ø®ØªÙŠØ§Ø±ÙŠ)
-      filteredRows.sort((a, b) => new Date(a.date) - new Date(b.date));
-      setSelectedRows(filteredRows);
+    if (val) {
+      const rows = csvData
+        .filter(r =>
+          r.country === selectedCountry &&
+          (r.governorate === val || r.city === val)
+        )
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+      setSelectedRows(rows);
     } else {
       setSelectedRows([]);
     }
   };
 
-  // Ø²Ø± Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ø¥Ø¹Ø§Ø¯Ø© ØªØ¹ÙŠÙŠÙ† Ø§Ù„Ø§Ø®ØªÙŠØ§Ø±Ø§Øª
+  /* âŸ¹ Ø²Ø± Ø§Ù„Ø¹ÙˆØ¯Ø© Ù…Ù† Ø´Ø§Ø´Ø© Ø§Ù„Ø·Ù‚Ø³ */
   const handleBack = () => {
     setSelectedRows([]);
-    setSelectedCountry('');
-    setSelectedCity('');
+    setSelectedCountry("");
+    setSelectedCity("");
   };
 
-  // ØªØ¨Ø¯ÙŠÙ„ Ø§Ù„Ù„ØºØ©
-  const toggleLanguage = () => {
-    i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en');
-  };
+  /* âŸ¹ ØªØ¨Ø¯ÙŠÙ„ Ø§Ù„Ù„ØºØ© */
+  const toggleLanguage = () =>
+    i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
 
-  useEffect(() => {
-    document.title = t('logo');
-  }, [i18n.language, t]);
+  /* âŸ¹ ØªØ­Ø¯ÙŠØ« Ø¹Ù†ÙˆØ§Ù† ØµÙØ­Ø© Ø§Ù„Ù…ØªØµÙÙ‘Ø­ */
+  useEffect(() => { document.title = t("logo"); }, [i18n.language, t]);
 
-  // Ø¥Ø°Ø§ ØªÙ… Ø§Ø®ØªÙŠØ§Ø± Ù…Ø¯ÙŠÙ†Ø© (Ø£ÙŠ selectedRows ØºÙŠØ± ÙØ§Ø±ØºØ©)ØŒ Ø§Ø¹Ø±Ø¶ Ø´Ø§Ø´Ø© Ø§Ù„Ø³Ù„Ø§ÙŠØ¯Ø± ÙÙ‚Ø·
-  if (selectedRows.length > 0) {
+  /* â€”â€”â€” Ø´Ø§Ø´Ø© Ø§Ù„Ø·Ù‚Ø³ (Ù…Ø¹ ØªÙ…Ø±ÙŠØ±) â€”â€”â€” */
+  if (selectedRows.length) {
     return (
-      <div className={i18n.language === 'ar' ? 'rtl' : ''}>
-        <WeatherDisplay 
-          selectedRows={selectedRows}
-          selectedCountry={selectedCountry}
-          selectedCity={selectedCity}
-          onBack={handleBack}
+      <div className={i18n.language === "ar" ? "rtl" : ""}>
+        <WeatherDisplay
+          selectedRows     ={selectedRows}
+          selectedCountry  ={selectedCountry}
+          selectedCity     ={selectedCity}
+          onBack           ={handleBack}
         />
       </div>
     );
   }
 
-  // ÙÙŠ Ø­Ø§Ù„Ø© Ø¹Ø¯Ù… ÙˆØ¬ÙˆØ¯ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø³Ù„Ø§ÙŠØ¯Ø±ØŒ Ø§Ø¹Ø±Ø¶ Ø§Ù„ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„ÙƒØ§Ù…Ù„Ø© Ù…Ø¹ Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„Ø§Ø®ØªÙŠØ§Ø±
+  /* â€”â€”â€” Ø´Ø§Ø´Ø© Ø§Ù„Ø§Ø®ØªÙŠØ§Ø± (Ø¨Ø¯ÙˆÙ† ØªÙ…Ø±ÙŠØ±) â€”â€”â€” */
   return (
-    <div className={i18n.language === 'ar' ? 'rtl' : ''}>
+    <div className={i18n.language === "ar" ? "rtl" : ""}>
+      {/* Navbar */}
       <nav className="navbar">
-        <div className="logo">{t('logo')}</div>
-        <div className="lang-switch">
-          <button className="language-button" onClick={toggleLanguage}>
-            <FaGlobe style={{ marginRight: '4px' }} />
-            {i18n.language === 'en' ? 'AR' : 'EN'}
-          </button>
-        </div>
+        <div className="logo">{t("logo")}</div>
+        <button className="language-button" onClick={toggleLanguage}>
+          <FaGlobe style={{ marginRight: 4 }} />
+          {i18n.language === "en" ? "AR" : "EN"}
+        </button>
       </nav>
 
-      <section className="hero-section">
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          {/* ÙŠÙ…ÙƒÙ†Ùƒ ÙˆØ¶Ø¹ Ø¹Ù†ÙˆØ§Ù† Ø£Ùˆ Ø´Ø¹Ø§Ø± Ù‡Ù†Ø§ */}
-        </div>
-      </section>
-
-      <div className="container">
-        <CountryCitySelect 
-          countries={countries}
+      {/* Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ø¯ÙˆÙ„Ø© / Ø§Ù„Ù…Ø¯ÙŠÙ†Ø© */}
+      <section className="selection-bg">
+        <CountryCitySelect
+          countries      ={countries}
           selectedCountry={selectedCountry}
           onCountryChange={handleCountryChange}
-          cities={cities}
-          selectedCity={selectedCity}
-          onCityChange={handleCityChange}
+          cities         ={cities}
+          selectedCity   ={selectedCity}
+          onCityChange   ={handleCityChange}
         />
-      </div>
+      </section>
 
+      {/* Footer */}
       <footer className="footer">
-        &copy; {new Date().getFullYear()} Weather Platform
+        <p className="university">
+          UOITC â€“ University of Information Technology &amp; Communications
+        </p>
+        <p className="credits">
+          <strong>Supervised&nbsp;by&nbsp;</strong>
+          Lecture&nbsp;Zena&nbsp;Jamal&nbsp;Jabbar â€¢ Dr.&nbsp;Ola&nbsp;Adel&nbsp;Qasim
+        </p>
+        <p className="credits">
+          <strong>By&nbsp;</strong>
+          Tamara&nbsp;Ali&nbsp;Fadel â€¢ Mohammed&nbsp;Abbas â€¢ Qassem&nbsp;Sarem
+        </p>
+        <p className="copyright">Â© 2024-2025 Weather Platform</p>
       </footer>
     </div>
   );
@@ -530,76 +380,133 @@ root.render(
   </React.StrictMode>
 );
 === C:\Users\progr\Documents\GitHub\AI-weather-prediction\src\components\CountryCitySelect.css ===
-/* src/components/CountryCitySelect.css */
-.select-container {
-    background: #fff;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin-top: 2rem;
-  }
-  
-  .select-container label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-  }
-  
-  .select-container select {
-    width: 50%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-  }
-  
-=== C:\Users\progr\Documents\GitHub\AI-weather-prediction\src\components\CountryCitySelect.js ===
-// src/components/CountryCitySelect.js
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import './CountryCitySelect.css';
+/* ==== Ø§Ù„Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„Ù…Ø«Ø¨ÙŽÙ‘ØªØ© ==== */
+.select-container{
+  background:#003366;
+  border-radius:14px;
+  padding:2.2rem 2rem;
+  box-shadow:0 18px 45px rgba(0,0,0,.25);
+  color:#fff;text-align:center;
+  position:fixed;top:35%;left:35%;
+  transform:translate(-50%,-50%);
+  width:min(92%,580px);z-index:150;
+}
+.select-container:hover{transform:translate(-50%,-52%)}
 
-const CountryCitySelect = ({ 
-  countries, 
-  selectedCountry, 
-  onCountryChange, 
-  cities, 
-  selectedCity, 
-  onCityChange 
-}) => {
+/* Ø­Ø¯Ù‘ Ù…ØªØ¯Ø±Ù‘Ø¬ Ø­ÙˆÙ„ Ø§Ù„Ø¨Ø·Ø§Ù‚Ø© */
+.fancy-border::before{
+  content:"";position:absolute;inset:-2px;z-index:-1;border-radius:inherit;
+  background:linear-gradient(135deg,#0068cc,#00a3ff,#0068cc);
+  background-size:400% 400%;animation:borderFlow 8s ease infinite;
+}
+@keyframes borderFlow{
+  0%,100%{background-position:0% 50%}
+  50%    {background-position:100% 50%}
+}
+
+/* Ø§Ù„Ø¹Ù†Ø§ÙˆÙŠÙ† */
+.animated-label{
+  display:block;margin:.6rem 0;font-weight:600;font-size:1.15rem;
+  animation:fadeIn .6s ease-out both;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to  {opacity:1;transform:translateY(0)}
+}
+
+/* Ø§Ù„Ù‚ÙˆØ§Ø¦Ù… Ø§Ù„Ù…Ù†Ø³Ø¯Ù„Ø© (Ù‚Ø§Ø¦Ù…Ø© Ø«Ø§Ø¨ØªØ©) */
+.select-container select{
+  /* Ø§Ù„Ø£Ø³Ø§Ø³ÙŠØ§Øª */
+  width:100%;padding:.9rem 1rem;margin-bottom:1.6rem;
+  border:none;border-radius:8px;font-size:1.05rem;
+  background:#fff;color:#333;cursor:pointer;
+
+  /* Ø¥Ù„ØºØ§Ø¡ Ø³Ù‡Ù… Ø§Ù„Ù†Ø¸Ø§Ù… + ØªÙ…Ø±ÙŠØ± Ø¯Ø§Ø®Ù„Ù‰ */
+  appearance:none;-webkit-appearance:none;-moz-appearance:none;
+  overflow-y:auto;max-height:220px;
+
+  /* Ù„Ù…Ø­Ø§Ø°Ø§Ø© Ø§Ù„Ù†Øµ ÙˆØ³Ø· Ø§Ù„Ø³Ø·Ø± Ø§Ù„Ù…ÙØ®ØªØ§Ø± */
+  text-align:center;text-align-last:center;
+}
+.select-container select:focus{
+  outline:none;box-shadow:0 0 0 3px rgba(0,153,255,.35)
+}
+.select-container option{padding:.65rem;font-size:1.05rem}
+
+/* Ø¯Ø¹Ù… RTL */
+.rtl .select-container{direction:rtl}
+=== C:\Users\progr\Documents\GitHub\AI-weather-prediction\src\components\CountryCitySelect.js ===
+// CountryCitySelect.js  â€“ Ø§Ù„Ù†Ø³Ø®Ø© Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠØ©
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
+import "./CountryCitySelect.css";
+
+const VISIBLE_OPTIONS = 4;          // Ø¹Ø¯Ø¯ Ø§Ù„Ø¨Ù†ÙˆØ¯ Ø§Ù„Ø¸Ø§Ù‡Ø±Ø© Ù…Ø¹ Scroll Ø¯Ø§Ø®Ù„Ù‰
+
+/* Ø­Ø±ÙƒØ© Ø¨Ø³ÙŠØ·Ø© Ù„Ù„Ø¨Ø·Ø§Ù‚Ø© */
+const fadeSlide = {
+  hidden : { opacity: 0, y: 60 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
+};
+
+export default function CountryCitySelect({
+  countries,
+  selectedCountry,
+  onCountryChange,
+  cities,
+  selectedCity,
+  onCityChange
+}) {
   const { t } = useTranslation();
 
   return (
-    <div className="select-container">
-      <label>{t('selectCountry')}:</label>
-      <select value={selectedCountry} onChange={onCountryChange}>
-        <option value="">{t('selectCountry')} --</option>
-        {countries.map((country, idx) => (
-          <option key={idx} value={country}>
-            {t(`countries.${country}`, { defaultValue: country })}
+    <motion.div
+      className="select-container fancy-border"
+      variants={fadeSlide}
+      initial="hidden"
+      animate="visible"
+    >
+      {/* -------- Ø§Ù„Ø¯ÙˆÙ„Ø© -------- */}
+      <label className="animated-label">{t("selectCountry")}:</label>
+      <select
+        size={VISIBLE_OPTIONS}
+        value={selectedCountry}
+        onChange={onCountryChange}
+      >
+        <option value="">{t("selectCountry")} --</option>
+        {countries.map((c) => (
+          <option key={c} value={c}>
+            {t(`countries.${c}`, { defaultValue: c })}
           </option>
         ))}
       </select>
 
+      {/* -------- Ø§Ù„Ù…Ø¯ÙŠÙ†Ø© -------- */}
       {cities.length > 0 && (
         <>
-          <label>{t('selectCity')}:</label>
-          <select value={selectedCity} onChange={onCityChange}>
-            <option value="">{t('selectCity')} --</option>
-            {cities.map((city, idx) => (
-              <option key={idx} value={city}>
+          <label className="animated-label">{t("selectCity")}:</label>
+          <select
+            size={VISIBLE_OPTIONS}
+            value={selectedCity}
+            onChange={onCityChange}
+          >
+            <option value="">{t("selectCity")} --</option>
+            {cities.map((city) => (
+              <option key={city} value={city}>
                 {t(`cities.${city}`, { defaultValue: city })}
               </option>
             ))}
           </select>
         </>
       )}
-    </div>
+    </motion.div>
   );
-};
-
-export default CountryCitySelect;
+}
 === C:\Users\progr\Documents\GitHub\AI-weather-prediction\src\components\WeatherDisplay.css ===
 /* src/components/WeatherDisplay.css */
 

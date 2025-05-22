@@ -1,38 +1,37 @@
-// src/App.js
 import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
 import CountryCitySelect from "./components/CountryCitySelect";
-import WeatherDisplay     from "./components/WeatherDisplay";
+import WeatherDisplay from "./components/WeatherDisplay";
 import { useTranslation } from "react-i18next";
-import { FaGlobe }        from "react-icons/fa";
+import { FaGlobe } from "react-icons/fa";
 import "./App.css";
 
 function App() {
-  const [csvData,        setCsvData]        = useState([]);
-  const [countries,      setCountries]      = useState([]);
-  const [cities,         setCities]         = useState([]);
-  const [selectedRows,   setSelectedRows]   = useState([]);
-  const [selectedCountry,setSelectedCountry]= useState("");
-  const [selectedCity,   setSelectedCity]   = useState("");
+  const [csvData, setCsvData] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
   const { i18n, t } = useTranslation();
 
-  /* ⟹ تحميل ملف CSV مرة واحدة */
+  /* 🔄 تحميل ملف CSV مرة واحدة */
   useEffect(() => {
     Papa.parse("/future_weather_predictions.csv", {
       download: true,
-      header  : true,
+      header: true,
       complete: ({ data }) => {
         const filtered = data.filter(
-          row => row.country && (row.governorate || row.city)
+          (row) => row.country && (row.governorate || row.city)
         );
         setCsvData(filtered);
-        setCountries([...new Set(filtered.map(r => r.country))].sort());
+        setCountries([...new Set(filtered.map((r) => r.country))].sort());
       },
-      error: err => console.error("Error parsing CSV:", err)
+      error: (err) => console.error("Error parsing CSV:", err),
     });
   }, []);
 
-  /* ⟹ إضافة/إزالة كلاس no-scroll للـ <body> */
+  /* 🔄 إضافة/إزالة class no-scroll لـ <body> */
   useEffect(() => {
     if (selectedRows.length === 0) {
       document.body.classList.add("no-scroll");
@@ -42,31 +41,32 @@ function App() {
     return () => document.body.classList.remove("no-scroll");
   }, [selectedRows]);
 
-  /* ⟹ معالجة اختيار الدولة */
-  const handleCountryChange = e => {
-    const val = e.target.value;
+  /* 🔄 معالجة اختيار الدولة */
+  const handleCountryChange = (val) => {
     setSelectedCountry(val);
     setSelectedCity("");
     setSelectedRows([]);
 
     if (val) {
-      const filtered = csvData.filter(r => r.country === val);
-      setCities([...new Set(filtered.map(r => r.governorate || r.city))].sort());
+      const filtered = csvData.filter((r) => r.country === val);
+      setCities([
+        ...new Set(filtered.map((r) => r.governorate || r.city)),
+      ].sort());
     } else {
       setCities([]);
     }
   };
 
-  /* ⟹ معالجة اختيار المدينة */
-  const handleCityChange = e => {
-    const val = e.target.value;
+  /* 🔄 معالجة اختيار المدينة */
+  const handleCityChange = (val) => {
     setSelectedCity(val);
 
     if (val) {
       const rows = csvData
-        .filter(r =>
-          r.country === selectedCountry &&
-          (r.governorate === val || r.city === val)
+        .filter(
+          (r) =>
+            r.country === selectedCountry &&
+            (r.governorate === val || r.city === val)
         )
         .sort((a, b) => new Date(a.date) - new Date(b.date));
       setSelectedRows(rows);
@@ -75,29 +75,31 @@ function App() {
     }
   };
 
-  /* ⟹ زر العودة من شاشة الطقس */
+  /* 🔙 زر العودة من شاشة الطقس */
   const handleBack = () => {
     setSelectedRows([]);
     setSelectedCountry("");
     setSelectedCity("");
   };
 
-  /* ⟹ تبديل اللغة */
+  /* 🌐 تبديل اللغة */
   const toggleLanguage = () =>
     i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
 
-  /* ⟹ تحديث عنوان صفحة المتصفّح */
-  useEffect(() => { document.title = t("logo"); }, [i18n.language, t]);
+  /* 🏷️ تحديث عنوان صفحة المتصفح */
+  useEffect(() => {
+    document.title = t("logo");
+  }, [i18n.language, t]);
 
   /* ——— شاشة الطقس (مع تمرير) ——— */
   if (selectedRows.length) {
     return (
       <div className={i18n.language === "ar" ? "rtl" : ""}>
         <WeatherDisplay
-          selectedRows     ={selectedRows}
-          selectedCountry  ={selectedCountry}
-          selectedCity     ={selectedCity}
-          onBack           ={handleBack}
+          selectedRows={selectedRows}
+          selectedCountry={selectedCountry}
+          selectedCity={selectedCity}
+          onBack={handleBack}
         />
       </div>
     );
@@ -118,12 +120,12 @@ function App() {
       {/* اختيار الدولة / المدينة */}
       <section className="selection-bg">
         <CountryCitySelect
-          countries      ={countries}
+          countries={countries}
           selectedCountry={selectedCountry}
           onCountryChange={handleCountryChange}
-          cities         ={cities}
-          selectedCity   ={selectedCity}
-          onCityChange   ={handleCityChange}
+          cities={cities}
+          selectedCity={selectedCity}
+          onCityChange={handleCityChange}
         />
       </section>
 

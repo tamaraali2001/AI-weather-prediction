@@ -40,11 +40,11 @@ function App() {
   }, [selectedCountry]);
 
   /* تعطيل التمرير عندما تكون شاشة الاختيار مكبرة */
-  useEffect(() => {
-    if (selectedRows.length === 0) document.body.classList.add("no-scroll");
-    else document.body.classList.remove("no-scroll");
-    return () => document.body.classList.remove("no-scroll");
-  }, [selectedRows]);
+  // useEffect(() => {
+  //   if (selectedRows.length === 0) document.body.classList.add("no-scroll");
+  //   else document.body.classList.remove("no-scroll");
+  //   return () => document.body.classList.remove("no-scroll");
+  // }, [selectedRows]);
 
   /* تغيير الدولة */
   const handleCountryChange = (val) => {
@@ -115,7 +115,7 @@ function App() {
         <GlobeScene
           activeCountry={selectedCountry}
           activeCity={selectedCity}
-          initialView={{ lat: 20, lng: 45, alt: 2 }}  /* اضبط كما تريد */
+          initialView={{ lat: 20, lng: 45, alt: 3.5 }}  /* اضبط كما تريد */
         />
       )}
 

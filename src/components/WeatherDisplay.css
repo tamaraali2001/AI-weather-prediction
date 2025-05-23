@@ -1,7 +1,15 @@
 /* src/components/WeatherDisplay.css */
 
-/* === General slider layout (unchanged) === */
-.weather-slider { position:relative;width:100%;height:100vh;overflow:hidden;background:#000; }
+/* === General slider layout === */
+.weather-slider{
+  position: fixed;        /* 🆕 يبقى ثابتاً ويغطي كامل النافذة */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
 .slider-wrapper { position:relative;width:100%;height:100%;overflow:hidden; }
 .slider         { display:flex;height:100%;transition:transform .7s ease-in-out; }
 .slide          { flex:0 0 100%;position:relative;height:100%; }
@@ -22,7 +30,6 @@
   max-width:880px;
   animation:fadeIn 1.5s cubic-bezier(0.22,1,0.36,1) forwards;
 }
-
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 
 .overlay-info h2{margin-bottom:1rem;font-size:2.3rem;font-weight:600;}
@@ -45,7 +52,7 @@
 .weather-card .label { font-size:.85rem;opacity:.8; }
 .weather-card .value { font-size:1.15rem;font-weight:600;margin-top:.15rem; }
 
-/* === Navigation buttons (unchanged) === */
+/* === Navigation buttons === */
 .nav-button{
   position:absolute;top:50%;transform:translateY(-50%);
   background:rgba(64,116,168,.7);border:none;color:#fff;
@@ -57,7 +64,7 @@
 .nav-button.prev{left:2%;}
 .nav-button.next{right:2%;}
 
-/* === Back button (unchanged) === */
+/* === Back button === */
 .back-button{
   position:absolute;top:2%;left:2%;
   background:#d9534f;color:#fff;border:none;

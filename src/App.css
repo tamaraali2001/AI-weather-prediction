@@ -7,7 +7,7 @@
 html, body { height: 100%; }
 body {
   font-family: 'Open Sans', sans-serif;
-  background: url("./assets/shutterstock.jpg.webp") center/cover fixed no-repeat;
+  background: url("./assets/home.webp") center/cover fixed no-repeat;
   color: #333;
   padding-bottom: 110px;            /* مساحة للفوتر الثابت */
   overflow-x: hidden;               /* منع تمرير أفقي */

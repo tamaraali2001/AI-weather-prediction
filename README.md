@@ -28,7 +28,7 @@ Where-Object {
 =========================================
 ## لتجربة أقصى جودة، جرب هذا بدون ضغط:
 
-ffmpeg -i cloudy.mp4 -vf "scale=1920:-1:flags=lanczos" -loop 0 -lossless 1 cloudy_lossless.webp
+ffmpeg -i sunny.mp4 -vf "scale=1920:-1:flags=lanczos" -loop 0 -lossless 1 sunny.webp
 
 ==========================================
 # 🔄 سكربت لتحويل كل ملفات .mp4 في المجلد إلى WebP بجودة فائقة بدون تغويش

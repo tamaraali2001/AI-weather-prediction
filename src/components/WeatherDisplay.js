@@ -13,6 +13,7 @@ import {
 import "./WeatherDisplay.css";
 
 import snowWebP    from "../assets/snow.webp";
+import sunnyWebP    from "../assets/sunny.webp";
 import cloudyWebP  from "../assets/cloudy.webp";
 import defaultWebP from "../assets/default.webp";
 
@@ -38,6 +39,7 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
   const getMediaForCondition = (condition) => {
     const cond = condition?.toLowerCase() || "";
     if (cond.includes("snow"))  return snowWebP;
+    if (cond.includes("sunny"))  return sunnyWebP;
     if (cond.includes("cloud")) return cloudyWebP;
     return defaultWebP;
   };

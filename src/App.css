@@ -7,6 +7,8 @@
 html, body { height: 100%; }
 
 body {
+
+  
   font-family: 'Open Sans', sans-serif;
   background: url("./assets/home.webp") center/cover fixed no-repeat;
   color: #333;
@@ -18,6 +20,10 @@ body {
   padding-bottom: 110px;
 
   overflow-x: hidden;
+}
+/* عند اختيار دولة (تُضاف class alt-bg إلى <body>) */
+body.alt-bg {
+  background-image: url("./assets/home1.webp");
 }
 
 /* تعطيل التمرير عند الحاجة (يتم إضافة class من React) */

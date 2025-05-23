@@ -32,6 +32,13 @@ function App() {
     });
   }, []);
 
+  /* تبديل الخلفية عند اختيار دولة */
+  useEffect(() => {
+    const body = document.body;
+    if (selectedCountry) body.classList.add("alt-bg");
+    else body.classList.remove("alt-bg");
+  }, [selectedCountry]);
+
   /* تعطيل التمرير عندما تكون شاشة الاختيار مكبرة */
   useEffect(() => {
     if (selectedRows.length === 0) document.body.classList.add("no-scroll");

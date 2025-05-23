@@ -30,6 +30,10 @@ Where-Object {
 
 ffmpeg -i home1.mp4 -vf "scale=1920:-1:flags=lanczos" -loop 0 -lossless 1 home1.webp
 
+## Fix 
+
+ffmpeg -i home1.mp4  -vf "scale=1920:-1:flags=lanczos"  -loop 0 -q:v 80 -compression_level 6 home1.webp
+
 ===========================================
 
 ## steps:

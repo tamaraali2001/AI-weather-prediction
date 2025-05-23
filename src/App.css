@@ -4,109 +4,66 @@
 /* ===== خط عام ===== */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
 
-html, body {
-  height: 100%;
-  overflow: hidden;   /* 🚫 يمنع التمرير بكل الاتجاهات */
-}
-body {
-
-  
-  font-family: 'Open Sans', sans-serif;
-  background: url("./assets/home.webp") center/cover fixed no-repeat;
-  color: #333;
-
-  /* ⬇️ لتعويض ارتفاع الـ Navbar الثابت (حوالي 64px) */
-  padding-top: 64px;
-
-  /* ⬇️ لتعويض الفوتر الثابت في الأسفل */
-  padding-bottom: 110px;
-
-  overflow-x: hidden;
-}
-/* عند اختيار دولة (تُضاف class alt-bg إلى <body>) */
-body.alt-bg {
-  background-image: url("./assets/home1.webp");
+html, body{
+  height:100%;
+  overflow:hidden;                /* منع التمرير */
 }
 
-/* تعطيل التمرير عند الحاجة (يتم إضافة class من React) */
-body.no-scroll {
-  overflow-y: hidden;
-  padding-bottom: 0;
+body{
+  font-family:'Open Sans',sans-serif;
+  background:url("./assets/home.webp") center/cover fixed no-repeat;
+  color:#333;
+  /* لم يعد هناك Navbar ثابت */
+  padding-top:0;
+  padding-bottom:110px;           /* تعويض الفوتر فقط */
 }
+
+/* تبديل الخلفية عند اختيار دولة */
+body.alt-bg{background-image:url("./assets/home1.webp");}
 
 /* ===== Globe canvas خلفي ===== */
-canvas:where(.globe-canvas) {
-  position: fixed;
-  inset: 0;
-  z-index: 0;          /* يبقى خلف كل شيء */
-  pointer-events: none;
+canvas:where(.globe-canvas),
+div[dir="ltr"]>canvas{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
 }
 
-/* ===== Navbar ===== */
-.navbar {
-  background: linear-gradient(45deg, #254361, #4074a8);
-  padding: 0.5rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #fff;
-
-  /* 🔒 تثبيت في أعلى الصفحة */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-
-  z-index: 500;        /* أعلى من الـ canvas وأي عناصر أخرى */
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+/* ===== زرّ تبديل اللغة ===== */
+.lang-switch{
+  position:fixed;top:12px;right:20px;
+  background:transparent;color:#fff;border:1px solid #fff;
+  padding:0.4rem 1rem;border-radius:25px;cursor:pointer;
+  display:flex;align-items:center;gap:0.35rem;
+  font-size:0.88rem;transition:all .3s ease;z-index:400;
 }
-
-.navbar .logo { font-size: 1.5rem; font-weight: 600; }
-
-.language-button {
-  background: transparent;
-  color: #fff;
-  border: 1px solid #fff;
-  padding: 0.45rem 1.1rem;
-  border-radius: 25px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  transition: all 0.3s ease;
-}
-
-.language-button:hover {
-  background: #fff;
-  color: #003366;
-}
+.lang-switch:hover{background:#fff;color:#003366;}
+/* انعكاس موضع الزر في RTL */
+.rtl .lang-switch{right:auto;left:20px;}
 
 /* ===== خلفية صندوق الاختيار ===== */
-.selection-bg {
-  min-height: calc(100vh - 110px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1rem;
-  position: relative;
+.selection-bg{
+  min-height:calc(100vh - 110px);
+  display:flex;align-items:center;justify-content:center;
+  padding:0 1rem;position:relative;
 }
 
-/* ===== Footer ثابت ===== */
-.footer {
-  background: #003366;
-  color: #fff;
-  text-align: center;
-  padding: 0.7rem 1rem;
-  font-size: 0.9rem;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
+/* ===== Sleek Footer (كما في النسخة السابقة) ===== */
+.footer{
+  position:fixed;bottom:0;left:0;width:100%;
+  background:linear-gradient(135deg,#002a4e 0%,#063b67 100%);
+  backdrop-filter:blur(6px);
+  border-top:1px solid rgba(255,255,255,.07);
+  z-index:100;
 }
+.footer-inner{
+  max-width:1400px;margin:0 auto;padding:0.5rem 1rem;
+  display:flex;flex-direction:column;align-items:center;
+  gap:.15rem;color:#d7e2f5;font-size:.78rem;line-height:1.25;
+}
+.footer-inner p{margin:0;white-space:nowrap;}
+.footer-inner .university{font-weight:600;letter-spacing:.3px;}
+.footer-inner .credits-line{opacity:.85;}
+.footer-inner .copyright{font-size:.7rem;opacity:.65;}
+.footer:hover{background:linear-gradient(135deg,#003766,#0a4e80 100%);}
 
 /* ===== دعم RTL ===== */
-.rtl { direction: rtl; }
-.rtl .navbar            { justify-content: flex-start; }
-.rtl .navbar .logo      { margin-right: auto; margin-left: 1rem; }
-.rtl .language-button   { margin-right: 1rem; }
+.rtl{direction:rtl;}

@@ -32,19 +32,10 @@ function App() {
     });
   }, []);
 
-  /* تبديل الخلفية عند اختيار دولة */
+  /* تبديل الخلفية */
   useEffect(() => {
-    const body = document.body;
-    if (selectedCountry) body.classList.add("alt-bg");
-    else body.classList.remove("alt-bg");
+    document.body.classList.toggle("alt-bg", !!selectedCountry);
   }, [selectedCountry]);
-
-  /* تعطيل التمرير عندما تكون شاشة الاختيار مكبرة */
-  // useEffect(() => {
-  //   if (selectedRows.length === 0) document.body.classList.add("no-scroll");
-  //   else document.body.classList.remove("no-scroll");
-  //   return () => document.body.classList.remove("no-scroll");
-  // }, [selectedRows]);
 
   /* تغيير الدولة */
   const handleCountryChange = (val) => {
@@ -77,7 +68,7 @@ function App() {
     }
   };
 
-  /* رجوع من شاشة الطقس */
+  /* زر العودة */
   const handleBack = () => {
     setSelectedRows([]);
     setSelectedCountry("");
@@ -88,12 +79,12 @@ function App() {
   const toggleLanguage = () =>
     i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
 
-  /* تحديث عنوان التبويب */
+  /* تحديث العنوان */
   useEffect(() => {
     document.title = t("logo");
   }, [i18n.language, t]);
 
-  /* —— شاشة الطقس —— */
+  /* شاشة الطقس */
   if (selectedRows.length) {
     return (
       <div className={i18n.language === "ar" ? "rtl" : ""}>
@@ -103,30 +94,32 @@ function App() {
           selectedCity={selectedCity}
           onBack={handleBack}
         />
+        {/* زر اللغة يظل ظاهرًا دائماً */}
+        <button className="lang-switch" onClick={toggleLanguage}>
+          <FaGlobe style={{ marginRight: 4 }} />
+          {i18n.language === "en" ? "AR" : "EN"}
+        </button>
       </div>
     );
   }
 
-  /* —— شاشة الاختيار —— */
+  /* شاشة الاختيار */
   return (
     <div className={i18n.language === "ar" ? "rtl" : ""}>
-      {/* Globe يظهر فقط بعد اختيار دولة */}
+      {/* كرة الأرضية عند اختيار دولة */}
       {selectedCountry && (
         <GlobeScene
           activeCountry={selectedCountry}
           activeCity={selectedCity}
-          initialView={{ lat: 20, lng: 45, alt: 3.5 }}  /* اضبط كما تريد */
+          initialView={{ lat: 20, lng: 45, alt: 3.5 }}
         />
       )}
 
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="logo">{t("logo")}</div>
-        <button className="language-button" onClick={toggleLanguage}>
-          <FaGlobe style={{ marginRight: 4 }} />
-          {i18n.language === "en" ? "AR" : "EN"}
-        </button>
-      </nav>
+      {/* زرّ تبديل اللغة (ثابت بأعلى الصفحة) */}
+      <button className="lang-switch" onClick={toggleLanguage}>
+        <FaGlobe style={{ marginRight: 4 }} />
+        {i18n.language === "en" ? "AR" : "EN"}
+      </button>
 
       {/* اختيار الدولة / المدينة */}
       <section className="selection-bg">
@@ -140,20 +133,16 @@ function App() {
         />
       </section>
 
-      {/* Footer */}
+      {/* Footer المحدث */}
       <footer className="footer">
-        <p className="university">
-          UOITC – University of Information Technology &amp; Communications
-        </p>
-        <p className="credits">
-          <strong>Supervised&nbsp;by&nbsp;</strong>
-          Lecture&nbsp;Zena&nbsp;Jamal&nbsp;Jabbar • Dr.&nbsp;Ola&nbsp;Adel&nbsp;Qasim
-        </p>
-        <p className="credits">
-          <strong>By&nbsp;</strong>
-          Tamara&nbsp;Ali&nbsp;Fadel • Mohammed&nbsp;Abbas • Qassem&nbsp;Sarem
-        </p>
-        <p className="copyright">© 2024-2025 Weather Platform</p>
+        <div className="footer-inner">
+      
+          <p className="credits-line">
+            By&nbsp;Tamara&nbsp;Ali&nbsp;Fadel&nbsp;•&nbsp;Mohammed&nbsp;Abbas&nbsp;•&nbsp;Qassem&nbsp;Sarem&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+            Supervised&nbsp;by&nbsp;Lecture&nbsp;Zena&nbsp;Jamal&nbsp;Jabbar&nbsp;•&nbsp;Dr.&nbsp;Ola&nbsp;Adel&nbsp;Qasim
+          </p>
+          <p className="copyright">UOITC – MTCE © 2024-2025 Weather Platform</p>
+        </div>
       </footer>
     </div>
   );

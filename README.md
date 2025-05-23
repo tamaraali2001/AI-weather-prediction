@@ -30,30 +30,6 @@ Where-Object {
 
 ffmpeg -i sunny.mp4 -vf "scale=1920:-1:flags=lanczos" -loop 0 -lossless 1 sunny.webp
 
-==========================================
-# 🔄 سكربت لتحويل كل ملفات .mp4 في المجلد إلى WebP بجودة فائقة بدون تغويش
-
-$inputFolder = "C:\Users\YASSER\Videos\weather_videos"
-$outputFolder = "C:\Users\YASSER\Videos\webp_outputs"
-New-Item -ItemType Directory -Force -Path $outputFolder | Out-Null
-
-Get-ChildItem -Path $inputFolder -Filter *.mp4 | ForEach-Object {
-    $inputFile = $_.FullName
-    $outputFile = Join-Path $outputFolder ($_.BaseName + "_ultra.webp")
-
-    Write-Host "🚀 جاري تحويل: $($_.Name) إلى WebP بأقصى وضوح..."
-
-    ffmpeg -i $inputFile -vf "fps=24,scale=1920:-1:flags=lanczos" `
-    -loop 0 `
-    -quality 90 `
-    -compression_level 4 `
-    -lossless 0 `
-    -preset picture `
-    $outputFile
-}
-
-Write-Host "✅ تم تحويل جميع الفيديوهات بجودة عالية جداً!"
-
 ===========================================
 
 ## steps:

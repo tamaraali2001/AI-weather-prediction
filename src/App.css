@@ -9,69 +9,53 @@ body {
   font-family: 'Open Sans', sans-serif;
   background: url("./assets/home.webp") center/cover fixed no-repeat;
   color: #333;
-  padding-bottom: 110px;            /* مساحة للفوتر الثابت */
-  overflow-x: hidden;               /* منع تمرير أفقي */
+  padding-bottom: 110px;
+  overflow-x: hidden;
 }
 
-/* عند عدم الحاجة للتمرير (تفعيلها بإضافة class من React إن أردت) */
-body.no-scroll {
-  overflow-y: hidden;
-  padding-bottom: 0;
+/* تعطيل التمرير */
+body.no-scroll { overflow-y: hidden; padding-bottom: 0; }
+
+/* ===== Globe canvas خلفي ===== */
+canvas:where(.globe-canvas){
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* ===== Navbar ===== */
 .navbar {
   background: linear-gradient(45deg, #254361, #4074a8);
   padding: 0.5rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   color: #fff;
 }
 .navbar .logo { font-size: 1.5rem; font-weight: 600; }
 
-.language-button {
-  background: transparent;
-  color: #fff;
-  border: 1px solid #fff;
-  padding: 0.45rem 1.1rem;
-  border-radius: 25px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  transition: all 0.3s ease;
+.language-button{
+  background:transparent;color:#fff;border:1px solid #fff;
+  padding:0.45rem 1.1rem;border-radius:25px;cursor:pointer;
+  display:flex;align-items:center;gap:0.35rem;transition:all 0.3s ease;
 }
-.language-button:hover { background: #fff; color: #003366; }
+.language-button:hover{ background:#fff; color:#003366; }
 
-/* ===== الطبقة التي تحمل الصندوق (للمركزة) ===== */
-.selection-bg {
-  min-height: calc(100vh - 110px);   /* شاشة كاملة ناقص الفوتر */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1rem;
-  position: relative;
+/* ===== خلفية صنـدوق الاختيار ===== */
+.selection-bg{
+  min-height:calc(100vh - 110px);
+  display:flex;align-items:center;justify-content:center;
+  padding:0 1rem;position:relative;
 }
 
-/* (لا يوجد أي تعريف .select-container هنا – أصبح حصريًا في CountryCitySelect.css) */
-
-/* ===== Footer ثابت ===== */
-.footer {
-  background: #003366;
-  color: #fff;
-  text-align: center;
-  padding: 0.7rem 1rem;
-  font-size: 0.9rem;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
+/* ===== Footer ===== */
+.footer{
+  background:#003366;color:#fff;text-align:center;
+  padding:0.7rem 1rem;font-size:0.9rem;
+  position:fixed;bottom:0;left:0;width:100%;z-index:100;
 }
 
-/* ===== دعم RTL ===== */
-.rtl { direction: rtl; }
-.rtl .navbar            { justify-content: flex-start; }
-.rtl .navbar .logo      { margin-right: auto; margin-left: 1rem; }
-.rtl .language-button   { margin-right: 1rem; }
+/* ===== RTL دعم ===== */
+.rtl{ direction:rtl; }
+.rtl .navbar            { justify-content:flex-start; }
+.rtl .navbar .logo      { margin-right:auto; margin-left:1rem; }
+.rtl .language-button   { margin-right:1rem; }

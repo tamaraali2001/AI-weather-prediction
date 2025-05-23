@@ -28,11 +28,17 @@ Where-Object {
 =========================================
 ## لتجربة أقصى جودة، جرب هذا بدون ضغط:
 
-ffmpeg -i sunny.mp4 -vf "scale=1920:-1:flags=lanczos" -loop 0 -lossless 1 sunny.webp
+ffmpeg -i home1.mp4 -vf "scale=1920:-1:flags=lanczos" -loop 0 -lossless 1 home1.webp
 
 ===========================================
 
 ## steps:
 
+# تثبيت nvm-windows أولاً (ملف ‎.exe‎ من GitHub)
+nvm install 18.19.0
+nvm use 18.19.0
+
+rd /s /q node_modules      # حذف المجلد القديم
+del package-lock.json
 npm install
 npm start

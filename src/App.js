@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
 import CountryCitySelect from "./components/CountryCitySelect";
 import WeatherDisplay from "./components/WeatherDisplay";
+import GlobeScene from "./components/GlobeScene"; /* 🆕 */
 import { useTranslation } from "react-i18next";
 import { FaGlobe } from "react-icons/fa";
 import "./App.css";
@@ -15,7 +16,7 @@ function App() {
   const [selectedCity, setSelectedCity] = useState("");
   const { i18n, t } = useTranslation();
 
-  /* 🔄 تحميل ملف CSV مرة واحدة */
+  /* 📥 تحميل CSV */
   useEffect(() => {
     Papa.parse("/future_weather_predictions.csv", {
       download: true,
@@ -31,7 +32,7 @@ function App() {
     });
   }, []);
 
-  /* 🔄 إضافة/إزالة class no-scroll لـ <body> */
+  /* 🔒 منع التمرير عند شاشة الاختيار */
   useEffect(() => {
     if (selectedRows.length === 0) {
       document.body.classList.add("no-scroll");
@@ -41,7 +42,7 @@ function App() {
     return () => document.body.classList.remove("no-scroll");
   }, [selectedRows]);
 
-  /* 🔄 معالجة اختيار الدولة */
+  /* تغيير الدولة */
   const handleCountryChange = (val) => {
     setSelectedCountry(val);
     setSelectedCity("");
@@ -49,18 +50,17 @@ function App() {
 
     if (val) {
       const filtered = csvData.filter((r) => r.country === val);
-      setCities([
-        ...new Set(filtered.map((r) => r.governorate || r.city)),
-      ].sort());
+      setCities(
+        [...new Set(filtered.map((r) => r.governorate || r.city))].sort()
+      );
     } else {
       setCities([]);
     }
   };
 
-  /* 🔄 معالجة اختيار المدينة */
+  /* تغيير المدينة */
   const handleCityChange = (val) => {
     setSelectedCity(val);
-
     if (val) {
       const rows = csvData
         .filter(
@@ -75,23 +75,23 @@ function App() {
     }
   };
 
-  /* 🔙 زر العودة من شاشة الطقس */
+  /* رجوع من شاشة الطقس */
   const handleBack = () => {
     setSelectedRows([]);
     setSelectedCountry("");
     setSelectedCity("");
   };
 
-  /* 🌐 تبديل اللغة */
+  /* تبديل اللغة */
   const toggleLanguage = () =>
     i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
 
-  /* 🏷️ تحديث عنوان صفحة المتصفح */
+  /* تغيير عنوان تبويب المتصفح */
   useEffect(() => {
     document.title = t("logo");
   }, [i18n.language, t]);
 
-  /* ——— شاشة الطقس (مع تمرير) ——— */
+  /* ——— شاشة عرض الطقس ——— */
   if (selectedRows.length) {
     return (
       <div className={i18n.language === "ar" ? "rtl" : ""}>
@@ -105,9 +105,15 @@ function App() {
     );
   }
 
-  /* ——— شاشة الاختيار (بدون تمرير) ——— */
+  /* ——— شاشة الاختيار + كرة الأرضية ——— */
   return (
     <div className={i18n.language === "ar" ? "rtl" : ""}>
+      {/* الكرة الأرضية الخلفية */}
+      <GlobeScene
+        activeCountry={selectedCountry}
+        activeCity={selectedCity} /* 🆕 تمرير المدينة */
+      />
+
       {/* Navbar */}
       <nav className="navbar">
         <div className="logo">{t("logo")}</div>
@@ -136,7 +142,8 @@ function App() {
         </p>
         <p className="credits">
           <strong>Supervised&nbsp;by&nbsp;</strong>
-          Lecture&nbsp;Zena&nbsp;Jamal&nbsp;Jabbar • Dr.&nbsp;Ola&nbsp;Adel&nbsp;Qasim
+          Lecture&nbsp;Zena&nbsp;Jamal&nbsp;Jabbar •
+          Dr.&nbsp;Ola&nbsp;Adel&nbsp;Qasim
         </p>
         <p className="credits">
           <strong>By&nbsp;</strong>

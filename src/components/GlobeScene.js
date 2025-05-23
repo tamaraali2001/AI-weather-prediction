@@ -7,6 +7,11 @@ import cityCoords from "../assets/city_coords.json";
 
 const normalize = (s) => s.toLowerCase().replace(/\s+/g, "");
 
+/* ثوابت ارتفاع الـ Navbar والفوتر (عدّلها إن تغيّر التصميم) */
+const NAV_HEIGHT     = 64;   // px
+const FOOTER_HEIGHT  = 110;  // px
+const V_PADDING      = NAV_HEIGHT + FOOTER_HEIGHT; // 174px
+
 export default function GlobeScene({
   activeCountry,
   activeCity,
@@ -72,38 +77,36 @@ export default function GlobeScene({
       if (coords) {
         const [lat, lng] = coords;
         return [
-          {
-            lat,
-            lng,
-            maxR: 0.6,
-            propagationSpeed: 2,
-            repeatPeriod: 1800
-          }
+          { lat, lng, maxR: 0.6, propagationSpeed: 2, repeatPeriod: 1800 }
         ];
       }
     }
     return [];
   }, [activeCity]);
 
-  /* حاوية تضمن ثبات الكرة على اليمين دائمًا */
+  /* أبعاد آمنة */
+  const safeWidth  = window.innerWidth  * 0.5;                 // 50% من العرض
+  const safeHeight = window.innerHeight - V_PADDING;           // 100vh - Navbar - Footer
+
   return (
     <div
-      dir="ltr"                 /* تجاهل وراثة RTL من الصفحة */
+      dir="ltr"
       style={{
         position: "fixed",
-        top: 0,
+        top: `${NAV_HEIGHT}px`,         // يبدأ تحت الـ Navbar
         right: 0,
         left: "auto",
-        width: "50vw",          /* نصف عرض الشاشة */
-        height: "100vh",
+        width: "50vw",                 // يشغل نصف الشاشة أفقياً
+        height: `calc(100vh - ${V_PADDING}px)`, // لا يتجاوز الفوتر
         zIndex: 0,
         pointerEvents: "none"
       }}
     >
       <Globe
         ref={globeRef}
-        width={window.innerWidth * 0.5}
-        height={window.innerHeight}
+        width={safeWidth}
+        height={safeHeight}
+        /* تمييز الدولة المختارة */
         polygonsData={countries}
         polygonCapColor={(d) =>
           normalize(d.properties.name).includes(normalize(activeCountry))
@@ -121,11 +124,13 @@ export default function GlobeScene({
             ? 0.08
             : 0.003
         }
+        /* الحلقة المتوهّجة للمدينة */
         ringsData={ringsData}
         ringColor={() => "#ffdf33"}
         ringMaxRadius={(d) => d.maxR}
         ringPropagationSpeed={(d) => d.propagationSpeed}
         ringRepeatPeriod={(d) => d.repeatPeriod}
+        /* إعدادات إضافية */
         atmosphereAltitude={0.18}
         atmosphereColor="#9cf"
         backgroundColor="rgba(0,0,0,0)"

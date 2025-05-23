@@ -5,22 +5,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
 
 html, body { height: 100%; }
+
 body {
   font-family: 'Open Sans', sans-serif;
   background: url("./assets/home.webp") center/cover fixed no-repeat;
   color: #333;
+
+  /* ⬇️ لتعويض ارتفاع الـ Navbar الثابت (حوالي 64px) */
+  padding-top: 64px;
+
+  /* ⬇️ لتعويض الفوتر الثابت في الأسفل */
   padding-bottom: 110px;
+
   overflow-x: hidden;
 }
 
-/* تعطيل التمرير */
-body.no-scroll { overflow-y: hidden; padding-bottom: 0; }
+/* تعطيل التمرير عند الحاجة (يتم إضافة class من React) */
+body.no-scroll {
+  overflow-y: hidden;
+  padding-bottom: 0;
+}
 
 /* ===== Globe canvas خلفي ===== */
-canvas:where(.globe-canvas){
+canvas:where(.globe-canvas) {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 0;          /* يبقى خلف كل شيء */
   pointer-events: none;
 }
 
@@ -28,34 +38,67 @@ canvas:where(.globe-canvas){
 .navbar {
   background: linear-gradient(45deg, #254361, #4074a8);
   padding: 0.5rem 1rem;
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   color: #fff;
+
+  /* 🔒 تثبيت في أعلى الصفحة */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  z-index: 500;        /* أعلى من الـ canvas وأي عناصر أخرى */
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
 }
+
 .navbar .logo { font-size: 1.5rem; font-weight: 600; }
 
-.language-button{
-  background:transparent;color:#fff;border:1px solid #fff;
-  padding:0.45rem 1.1rem;border-radius:25px;cursor:pointer;
-  display:flex;align-items:center;gap:0.35rem;transition:all 0.3s ease;
-}
-.language-button:hover{ background:#fff; color:#003366; }
-
-/* ===== خلفية صنـدوق الاختيار ===== */
-.selection-bg{
-  min-height:calc(100vh - 110px);
-  display:flex;align-items:center;justify-content:center;
-  padding:0 1rem;position:relative;
-}
-
-/* ===== Footer ===== */
-.footer{
-  background:#003366;color:#fff;text-align:center;
-  padding:0.7rem 1rem;font-size:0.9rem;
-  position:fixed;bottom:0;left:0;width:100%;z-index:100;
+.language-button {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 0.45rem 1.1rem;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.3s ease;
 }
 
-/* ===== RTL دعم ===== */
-.rtl{ direction:rtl; }
-.rtl .navbar            { justify-content:flex-start; }
-.rtl .navbar .logo      { margin-right:auto; margin-left:1rem; }
-.rtl .language-button   { margin-right:1rem; }
+.language-button:hover {
+  background: #fff;
+  color: #003366;
+}
+
+/* ===== خلفية صندوق الاختيار ===== */
+.selection-bg {
+  min-height: calc(100vh - 110px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  position: relative;
+}
+
+/* ===== Footer ثابت ===== */
+.footer {
+  background: #003366;
+  color: #fff;
+  text-align: center;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+/* ===== دعم RTL ===== */
+.rtl { direction: rtl; }
+.rtl .navbar            { justify-content: flex-start; }
+.rtl .navbar .logo      { margin-right: auto; margin-left: 1rem; }
+.rtl .language-button   { margin-right: 1rem; }

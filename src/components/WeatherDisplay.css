@@ -1,143 +1,67 @@
 /* src/components/WeatherDisplay.css */
 
-/* تغطية الشاشة كاملة بدون تجاوز */
-.weather-slider {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: #000;
+/* === General slider layout (unchanged) === */
+.weather-slider { position:relative;width:100%;height:100vh;overflow:hidden;background:#000; }
+.slider-wrapper { position:relative;width:100%;height:100%;overflow:hidden; }
+.slider         { display:flex;height:100%;transition:transform .7s ease-in-out; }
+.slide          { flex:0 0 100%;position:relative;height:100%; }
+.media-container{ position:relative;width:100%;height:100%; }
+.weather-media  { width:100%;height:100%;object-fit:cover; }
+
+/* === Fancy overlay with glass effect === */
+.overlay-info{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.2);
+  padding:2.2rem 2.6rem;
+  border-radius:18px;
+  color:#fff;text-align:center;
+  max-width:880px;
+  animation:fadeIn 1.5s cubic-bezier(0.22,1,0.36,1) forwards;
 }
 
-/* حاوية السلايدر */
-.slider-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 
-/* ترتيب الشرائح أفقيًا مع انتقال سلس */
-.slider {
-  display: flex;
-  height: 100%;
-  transition: transform 0.7s ease-in-out;
-}
+.overlay-info h2{margin-bottom:1rem;font-size:2.3rem;font-weight:600;}
 
-/* كل شريحة تأخذ عرض الشاشة كامل */
-.slide {
-  flex: 0 0 100%;
-  position: relative;
-  height: 100%;
+/* === Card grid & cards === */
+.weather-cards{
+  display:flex;flex-wrap:wrap;gap:1.1rem;justify-content:center;
 }
+.weather-card{
+  flex:1 1 150px;min-width:140px;max-width:180px;
+  background:rgba(0,0,0,.45);
+  border-radius:14px;
+  padding:.9rem .8rem;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  box-shadow:0 4px 18px rgba(0,0,0,.25);
+  transition:transform .35s ease;
+}
+.weather-card:hover{ transform:translateY(-6px) scale(1.04); }
+.weather-card .icon  { font-size:1.6rem;margin-bottom:.3rem; }
+.weather-card .label { font-size:.85rem;opacity:.8; }
+.weather-card .value { font-size:1.15rem;font-weight:600;margin-top:.15rem; }
 
-/* حاوية الوسائط */
-.media-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
+/* === Navigation buttons (unchanged) === */
+.nav-button{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(64,116,168,.7);border:none;color:#fff;
+  font-size:2.5rem;padding:.5rem 1rem;border-radius:50%;
+  cursor:pointer;transition:background .3s ease,transform .3s ease;z-index:2;
 }
+.nav-button:hover:not(:disabled){background:rgba(37,67,97,.9);transform:translateY(-50%) scale(1.1);}
+.nav-button:disabled{opacity:.5;cursor:not-allowed;}
+.nav-button.prev{left:2%;}
+.nav-button.next{right:2%;}
 
-/* تنسيق الفيديو ليملأ الشاشة */
-.weather-media {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* === Back button (unchanged) === */
+.back-button{
+  position:absolute;top:2%;left:2%;
+  background:#d9534f;color:#fff;border:none;
+  padding:.7rem 1.2rem;border-radius:4px;cursor:pointer;z-index:2;
+  transition:background .3s ease;
 }
-
-/* طبقة بيانات الطقس (Overlay) مع تأثير دخول بطيء */
-.overlay-info {
-  position: absolute;
-  top: 35%;
-  left: 40%;
-  /* transform: translate(-60%, -20%) rotate(5deg) scale(0.9); */
-  background: rgba(0, 0, 0, 0.5);
-  padding: 1.5rem 2rem;
-  border-radius: 8px;
-  color: #fff;
-  text-align: center;
-  animation: fadeIn 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    /* transform: translate(-60%, -30%) rotate(5deg) scale(0.9); */
-  }
-  to {
-    opacity: 1;
-    /* transform: translate(-60%, -20%) rotate(5deg) scale(1); */
-  }
-}
-
-/* أزرار التنقل */
-.nav-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(64, 116, 168, 0.7);
-  border: none;
-  color: #fff;
-  font-size: 2.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
-  z-index: 2;
-}
-
-.nav-button:hover:not(:disabled) {
-  background: rgba(37, 67, 97, 0.9);
-  transform: translateY(-50%) scale(1.1);
-}
-
-.nav-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.nav-button.prev {
-  left: 2%;
-}
-
-.nav-button.next {
-  right: 2%;
-}
-
-/* زر العودة */
-.back-button {
-  position: absolute;
-  top: 2%;
-  left: 2%;
-  background: #d9534f;
-  color: #fff;
-  border: none;
-  padding: 0.7rem 1.2rem;
-  border-radius: 4px;
-  cursor: pointer;
-  z-index: 2;
-  transition: background 0.3s ease;
-}
-
-.back-button:hover {
-  background: #c9302c;
-}
-
-/* تنسيق نصوص بيانات الطقس مع الأيقونات */
-.overlay-info h2 {
-  margin-bottom: 0.5rem;
-  font-size: 2.5rem;
-  font-weight: 600;
-}
-
-.overlay-info p {
-  margin: 0.3rem 0;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.overlay-info p svg {
-  margin-right: 0.5rem;
-}
+.back-button:hover{background:#c9302c;}

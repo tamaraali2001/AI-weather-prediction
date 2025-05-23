@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
 import CountryCitySelect from "./components/CountryCitySelect";
 import WeatherDisplay from "./components/WeatherDisplay";
-import GlobeScene from "./components/GlobeScene"; /* 🆕 */
+import GlobeScene from "./components/GlobeScene";
 import { useTranslation } from "react-i18next";
 import { FaGlobe } from "react-icons/fa";
 import "./App.css";
@@ -16,7 +16,7 @@ function App() {
   const [selectedCity, setSelectedCity] = useState("");
   const { i18n, t } = useTranslation();
 
-  /* 📥 تحميل CSV */
+  /* تحميل CSV */
   useEffect(() => {
     Papa.parse("/future_weather_predictions.csv", {
       download: true,
@@ -32,13 +32,10 @@ function App() {
     });
   }, []);
 
-  /* 🔒 منع التمرير عند شاشة الاختيار */
+  /* تعطيل التمرير عندما تكون شاشة الاختيار مكبرة */
   useEffect(() => {
-    if (selectedRows.length === 0) {
-      document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
-    }
+    if (selectedRows.length === 0) document.body.classList.add("no-scroll");
+    else document.body.classList.remove("no-scroll");
     return () => document.body.classList.remove("no-scroll");
   }, [selectedRows]);
 
@@ -50,9 +47,7 @@ function App() {
 
     if (val) {
       const filtered = csvData.filter((r) => r.country === val);
-      setCities(
-        [...new Set(filtered.map((r) => r.governorate || r.city))].sort()
-      );
+      setCities([...new Set(filtered.map((r) => r.governorate || r.city))].sort());
     } else {
       setCities([]);
     }
@@ -86,12 +81,12 @@ function App() {
   const toggleLanguage = () =>
     i18n.changeLanguage(i18n.language === "en" ? "ar" : "en");
 
-  /* تغيير عنوان تبويب المتصفح */
+  /* تحديث عنوان التبويب */
   useEffect(() => {
     document.title = t("logo");
   }, [i18n.language, t]);
 
-  /* ——— شاشة عرض الطقس ——— */
+  /* —— شاشة الطقس —— */
   if (selectedRows.length) {
     return (
       <div className={i18n.language === "ar" ? "rtl" : ""}>
@@ -105,14 +100,17 @@ function App() {
     );
   }
 
-  /* ——— شاشة الاختيار + كرة الأرضية ——— */
+  /* —— شاشة الاختيار —— */
   return (
     <div className={i18n.language === "ar" ? "rtl" : ""}>
-      {/* الكرة الأرضية الخلفية */}
-      <GlobeScene
-        activeCountry={selectedCountry}
-        activeCity={selectedCity} /* 🆕 تمرير المدينة */
-      />
+      {/* Globe يظهر فقط بعد اختيار دولة */}
+      {selectedCountry && (
+        <GlobeScene
+          activeCountry={selectedCountry}
+          activeCity={selectedCity}
+          initialView={{ lat: 20, lng: 45, alt: 2 }}  /* اضبط كما تريد */
+        />
+      )}
 
       {/* Navbar */}
       <nav className="navbar">
@@ -142,8 +140,7 @@ function App() {
         </p>
         <p className="credits">
           <strong>Supervised&nbsp;by&nbsp;</strong>
-          Lecture&nbsp;Zena&nbsp;Jamal&nbsp;Jabbar •
-          Dr.&nbsp;Ola&nbsp;Adel&nbsp;Qasim
+          Lecture&nbsp;Zena&nbsp;Jamal&nbsp;Jabbar • Dr.&nbsp;Ola&nbsp;Adel&nbsp;Qasim
         </p>
         <p className="credits">
           <strong>By&nbsp;</strong>

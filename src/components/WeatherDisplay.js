@@ -12,11 +12,11 @@ import {
 } from "react-icons/wi";
 import "./WeatherDisplay.css";
 
+import rainWebP from "../assets/rain.webp";
 import snowWebP    from "../assets/snow.webp";
 import sunnyWebP    from "../assets/sunny.webp";
 import cloudyWebP  from "../assets/cloudy.webp";
 import defaultWebP from "../assets/default.webp";
-import rainWebP from "../assets/rain.webp";
 
 // 🔹 Re-usable card for each metric
 const MetricCard = ({ icon, label, value }) => (
@@ -39,16 +39,16 @@ const WeatherDisplay = ({ selectedRows, selectedCountry, selectedCity, onBack })
 
   const getMediaForCondition = (condition) => {
     const cond = condition?.toLowerCase() || "";
+    if (cond.includes("rain")) return rainWebP;
     if (cond.includes("snow"))  return snowWebP;
     if (cond.includes("sunny"))  return sunnyWebP;
     if (cond.includes("cloud")) return cloudyWebP;
-    if (cond.includes("rain")) return rainWebP;
     return defaultWebP;
   };
 
   const getIconForCondition = (condition) => {
     const cond = condition?.toLowerCase() || "";
-    if (cond.includes("rain"))  return <WiRain size={30} />;
+    if (cond.includes("Rain"))  return <WiRain size={30} />;
     if (cond.includes("snow"))  return <WiSnow size={30} />;
     if (cond.includes("cloud")) return <WiCloudy size={30} />;
     if (cond.includes("sunny")) return <WiDaySunny size={30} />;
